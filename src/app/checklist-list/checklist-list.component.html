@@ -1,0 +1,121 @@
+<div class="checklist-list-container">
+  <div class="header">
+    <h1>📋 Daftar Checklist Kendaraan</h1>
+    <div class="header-actions">
+      <button class="btn btn-success" (click)="exportToCSV()" [disabled]="savedChecklists.length === 0">
+        📊 Export CSV
+      </button>
+      <button class="btn btn-info" (click)="loadChecklists()">
+        🔄 Refresh
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="savedChecklists.length === 0" class="empty-state">
+    <div class="empty-icon">📝</div>
+    <h3>Belum ada checklist yang tersimpan</h3>
+    <p>Silakan buat checklist baru untuk melihat data di sini</p>
+  </div>
+
+  <div *ngIf="savedChecklists.length > 0" class="checklist-grid">
+    <div *ngFor="let checklist of savedChecklists" class="checklist-card">
+      <div class="card-header">
+        <div class="document-number">
+          <strong>{{ checklist.documentNumber }}</strong>
+        </div>
+        <div class="card-actions">
+          <button class="btn-icon btn-danger" (click)="deleteChecklist(checklist.documentNumber)" title="Hapus">
+            🗑️
+          </button>
+        </div>
+      </div>
+
+      <div class="card-content">
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Tanggal:</label>
+            <span>{{ formatDate(checklist.dateTime) }}</span>
+          </div>
+          <div class="info-item">
+            <label>Pengemudi:</label>
+            <span>{{ checklist.driverName || '-' }}</span>
+          </div>
+          <div class="info-item">
+            <label>Kendaraan:</label>
+            <span>{{ checklist.vehicleLocation || '-' }}</span>
+          </div>
+          <div class="info-item">
+            <label>Muatan:</label>
+            <span>{{ checklist.cargoType || '-' }}</span>
+          </div>
+          <div class="info-item">
+            <label>Inspector:</label>
+            <span>{{ checklist.inspectedBy || '-' }}</span>
+          </div>
+          <div class="info-item">
+            <label>KM Awal:</label>
+            <span>{{ checklist.departureKm || 0 }} km</span>
+          </div>
+        </div>
+
+        <div class="progress-section">
+          <div class="progress-header">
+            <span>Progress Pemeriksaan</span>
+            <span class="progress-percentage">{{ getCompletionPercentage(checklist) }}%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width.%]="getCompletionPercentage(checklist)"></div>
+          </div>
+        </div>
+
+        <div class="condition-summary">
+          <div class="condition-item condition-good">
+            <span class="condition-label">Baik</span>
+            <span class="condition-count">{{ getConditionCounts(checklist).B }}</span>
+          </div>
+          <div class="condition-item condition-bad">
+            <span class="condition-label">Tidak Baik</span>
+            <span class="condition-count">{{ getConditionCounts(checklist).TB }}</span>
+          </div>
+          <div class="condition-item condition-na">
+            <span class="condition-label">Tidak Ada</span>
+            <span class="condition-count">{{ getConditionCounts(checklist).N }}</span>
+          </div>
+        </div>
+
+        <div *ngIf="checklist.notes" class="notes-preview">
+          <label>Catatan:</label>
+          <p>{{ checklist.notes.length > 100 ? (checklist.notes.substring(0, 100) + '...') : checklist.notes }}</p>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <div class="status-indicator" [class]="getCompletionPercentage(checklist) === 100 ? 'complete' : 'incomplete'">
+          {{ getCompletionPercentage(checklist) === 100 ? '✅ Lengkap' : '⏳ Belum Lengkap' }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="savedChecklists.length > 0" class="summary-stats">
+    <h3>📊 Ringkasan</h3>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">{{ savedChecklists.length }}</div>
+        <div class="stat-label">Total Checklist</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">{{ getCompleteChecklistsCount() }}</div>
+        <div class="stat-label">Checklist Lengkap</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">{{ getIncompleteChecklistsCount() }}</div>
+        <div class="stat-label">Checklist Belum Lengkap</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">{{ getAverageProgress() }}%</div>
+        <div class="stat-label">Rata-rata Progress</div>
+      </div>
+    </div>
+  </div>
+</div>

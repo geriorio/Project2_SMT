@@ -1,0 +1,236 @@
+<div class="checklist-container">
+  <!-- Header -->
+  <div class="header">
+    <div class="logo-section">
+      <h1>🔧 SAMATOR</h1>
+      <h2>CHECKLIST PEMERIKSAAN/INSPEKSI KENDARAAN</h2>
+    </div>
+    <div class="document-info">
+      <label>No. Dokumen: <strong>{{ checklistForm.documentNumber }}</strong></label>
+    </div>
+  </div>
+
+  <!-- Form Information -->
+  <div class="form-info">
+    <div class="info-row">
+      <div class="info-group">
+        <label>Hari & Tanggal:</label>
+        <input type="datetime-local" [(ngModel)]="checklistForm.dateTime" class="form-input">
+      </div>
+      <div class="info-group">
+        <label>Lokasi Pemeriksaan:</label>
+        <input type="text" [(ngModel)]="checklistForm.vehicleLocation" placeholder="Nopol. Kendaraan" class="form-input">
+      </div>
+    </div>
+    
+    <div class="info-row">
+      <div class="info-group">
+        <label>Nama Pengemudi:</label>
+        <input type="text" [(ngModel)]="checklistForm.driverName" class="form-input" required>
+      </div>
+      <div class="info-group">
+        <label>Jam Keluar:</label>
+        <input type="time" [(ngModel)]="checklistForm.exitTime" class="form-input">
+      </div>
+    </div>
+    
+    <div class="info-row">
+      <div class="info-group">
+        <label>Kilometer (KM) Awal:</label>
+        <input type="number" [(ngModel)]="checklistForm.departureKm" class="form-input">
+      </div>
+      <div class="info-group">
+        <label>Jenis Muatan:</label>
+        <input type="text" [(ngModel)]="checklistForm.cargoType" placeholder="Cylinder / Dry Ice / LOX, LIN, LAR, CO2 / Gas" class="form-input" required>
+      </div>
+    </div>
+    
+    <div class="info-row full-width">
+      <label>No. Surat Jalan dan atau Nomor COA:</label>
+      <input type="text" [(ngModel)]="checklistForm.roadPermitNumber" class="form-input">
+    </div>
+  </div>
+
+  <!-- Progress Indicator -->
+  <div class="progress-section">
+    <div class="progress-bar">
+      <div class="progress-fill" [style.width.%]="getCompletionPercentage()"></div>
+    </div>
+    <span class="progress-text">Progress: {{ getCompletionPercentage() }}%</span>
+  </div>
+
+  <!-- Checklist Table -->
+  <div class="checklist-table">
+    <div class="table-header">
+      <div class="item-header">Pemeriksaan<br><em>Inspection</em></div>
+      <div class="condition-header">
+        <div>Kondisi<br><em>Condition</em></div>
+        <div class="condition-columns">
+          <span class="condition-b">B</span>
+          <span class="condition-tb">TB</span>
+          <span class="condition-n">N</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Categories -->
+    <div *ngFor="let category of categories" class="category-section">
+      <div class="category-header">{{ category }}</div>
+      
+      <div *ngFor="let item of categorizedItems[category]; let i = index" class="checklist-row">
+        <div class="item-number">{{ item.id }}</div>
+        <div class="item-name">{{ item.name }}</div>
+        <div class="condition-buttons">
+          <button 
+            type="button"
+            class="condition-btn condition-b"
+            [class.active]="item.condition === 'B'"
+            (click)="updateItemCondition(item.id, 'B')">
+            B
+          </button>
+          <button 
+            type="button"
+            class="condition-btn condition-tb"
+            [class.active]="item.condition === 'TB'"
+            (click)="updateItemCondition(item.id, 'TB')">
+            TB
+          </button>
+          <button 
+            type="button"
+            class="condition-btn condition-n"
+            [class.active]="item.condition === 'N'"
+            (click)="updateItemCondition(item.id, 'N')">
+            N
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item">
+      <strong>Keterangan:</strong>
+    </div>
+    <div class="legend-item">
+      Beri tanda tick mark (✓) pada kolom B / TB / N sesuai hasil pemeriksaan
+    </div>
+    <div class="legend-item">
+      * Coret salah satu
+    </div>
+    <div class="legend-item">
+      ** Masih dijinkan keluar perusahaan
+    </div>
+    <div class="legend-grid">
+      <div><strong>B</strong> = Baik</div>
+      <div><strong>TB</strong> = Tidak Baik</div>
+      <div><strong>N</strong> = Not Available / Tidak Dijumpai</div>
+    </div>
+  </div>
+
+  <!-- Notes Section -->
+  <div class="notes-section">
+    <div class="notes-row">
+      <label>Catatan:</label>
+      <div class="signature-section">
+        <label>Sopir:</label>
+        <label>Diinspeksi Oleh:</label>
+      </div>
+    </div>
+    <div class="notes-content">
+      <textarea [(ngModel)]="checklistForm.notes" placeholder="Tambahkan catatan disini..." class="notes-textarea"></textarea>
+      <div class="signatures">
+        <div class="signature-box">
+          <input type="text" [(ngModel)]="checklistForm.driverSignature" placeholder="Tanda tangan sopir" class="signature-input">
+        </div>
+        <div class="signature-box">
+          <input type="text" [(ngModel)]="checklistForm.inspectedBy" placeholder="Nama inspector" class="signature-input" required>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Disposal Section -->
+  <div class="disposal-section">
+    <h3>Disposisi dari Bagian Distribusi/Bengkel:</h3>
+    
+    <div class="disposal-options">
+      <div class="disposal-option">
+        <input type="radio" 
+               id="layakJalan" 
+               name="roadCondition" 
+               value="suitable"
+               (change)="onRoadConditionChange('suitable')">
+        <label for="layakJalan">1. Layak Jalan</label>
+      </div>
+      
+      <div class="disposal-option">
+        <input type="radio" 
+               id="bolehJalan" 
+               name="roadCondition" 
+               value="canTravel"
+               (change)="onRoadConditionChange('canTravel')">
+        <label for="bolehJalan">2. Boleh Jalan, dengan Catatan</label>
+        <input type="text" 
+               [(ngModel)]="checklistForm.disposalFromDistribution.repairNotes" 
+               placeholder="Estimasi Perbaikan Tanggal"
+               class="disposal-input">
+      </div>
+      
+      <div class="disposal-option">
+        <input type="radio" 
+               id="tidakLayakJalan" 
+               name="roadCondition" 
+               value="notSuitable"
+               (change)="onRoadConditionChange('notSuitable')">
+        <label for="tidakLayakJalan">3. Tidak Layak Jalan, Perbaikan Direncanakan Tanggal</label>
+        <input type="text" 
+               [(ngModel)]="checklistForm.disposalFromDistribution.repairContinueDate" 
+               placeholder="Tanggal perbaikan"
+               class="disposal-input">
+      </div>
+    </div>
+    
+    <div class="distribution-signature">
+      <label>Distribusi/Bengkel:</label>
+      <div class="signature-box-small"></div>
+    </div>
+  </div>
+
+  <!-- Summary Section -->
+  <div class="summary-section" *ngIf="getCompletionPercentage() > 0">
+    <h3>Ringkasan Pemeriksaan</h3>
+    <div class="summary-stats">
+      <div class="stat-item stat-good">
+        <span class="stat-label">Baik (B)</span>
+        <span class="stat-value">{{ getConditionCounts().B }}</span>
+      </div>
+      <div class="stat-item stat-bad">
+        <span class="stat-label">Tidak Baik (TB)</span>
+        <span class="stat-value">{{ getConditionCounts().TB }}</span>
+      </div>
+      <div class="stat-item stat-na">
+        <span class="stat-label">Tidak Ada (N)</span>
+        <span class="stat-value">{{ getConditionCounts().N }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="action-buttons">
+    <button type="button" (click)="resetForm()" class="btn btn-secondary" [disabled]="isSubmitted">
+      Reset Form
+    </button>
+    <button type="button" (click)="printChecklist()" class="btn btn-info">
+      🖨️ Print
+    </button>
+    <button type="button" (click)="onSubmit()" class="btn btn-primary" [disabled]="isSubmitted">
+      💾 Simpan Checklist
+    </button>
+  </div>
+
+  <!-- Success Message -->
+  <div *ngIf="isSubmitted" class="success-message">
+    ✅ Checklist berhasil disimpan dengan nomor dokumen: <strong>{{ checklistForm.documentNumber }}</strong>
+  </div>
+</div>
