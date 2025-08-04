@@ -2,72 +2,122 @@
   <!-- Header -->
   <div class="header">
     <div class="logo-section">
-      <h1>🔧 SAMATOR</h1>
-      <h2>CHECKLIST PEMERIKSAAN/INSPEKSI KENDARAAN</h2>
-    </div>
-    <div class="document-info">
-      <label>No. Dokumen: <strong>{{ checklistForm.documentNumber }}</strong></label>
+      <div class="company-logo">
+        <svg width="60" height="60" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="45" fill="#FF6B35" stroke="#FFF" stroke-width="3"/>
+          <text x="50" y="38" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="white" text-anchor="middle">S</text>
+          <text x="50" y="68" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">GAS</text>
+        </svg>
+      </div>
+      <div class="company-info">
+        <h1>SAMATOR</h1>
+        <h2>CHECKLIST PEMERIKSAAN/INSPEKSI KENDARAAN</h2>
+        <div class="document-info">
+          <span class="doc-label">No. Dokumen:</span>
+          <span class="doc-number">{{ checklistForm.documentNumber }}</span>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- Form Information -->
-  <div class="form-info">
-    <div class="info-row">
-      <div class="info-group">
-        <label>Hari & Tanggal:</label>
-        <input type="datetime-local" [(ngModel)]="checklistForm.dateTime" class="form-input">
-      </div>
-      <div class="info-group">
-        <label>Lokasi Pemeriksaan:</label>
-        <input type="text" [(ngModel)]="checklistForm.vehicleLocation" placeholder="Nopol. Kendaraan" class="form-input">
-      </div>
+  <div class="form-info card">
+    <div class="card-header">
+      <h3>📋 Informasi Checklist</h3>
     </div>
-    
-    <div class="info-row">
-      <div class="info-group">
-        <label>Nama Pengemudi:</label>
-        <input type="text" [(ngModel)]="checklistForm.driverName" class="form-input" required>
+    <div class="card-content">
+      <div class="info-grid">
+        <div class="info-group">
+          <label class="form-label">
+            <i class="icon">📅</i>
+            Hari & Tanggal
+          </label>
+          <input type="datetime-local" [(ngModel)]="checklistForm.dateTime" class="form-input">
+        </div>
+        
+        <div class="info-group">
+          <label class="form-label">
+            <i class="icon">📍</i>
+            Lokasi Pemeriksaan
+          </label>
+          <input type="text" [(ngModel)]="checklistForm.vehicleLocation" placeholder="Nopol. Kendaraan" class="form-input">
+        </div>
+        
+        <div class="info-group">
+          <label class="form-label">
+            <i class="icon">👤</i>
+            Nama Pengemudi
+          </label>
+          <input type="text" [(ngModel)]="checklistForm.driverName" class="form-input" required>
+        </div>
+        
+        <div class="info-group">
+          <label class="form-label">
+            <i class="icon">🕐</i>
+            Jam Keluar
+          </label>
+          <input type="time" [(ngModel)]="checklistForm.exitTime" class="form-input">
+        </div>
+        
+        <div class="info-group">
+          <label class="form-label">
+            <i class="icon">🛣️</i>
+            Kilometer (KM) Awal
+          </label>
+          <input type="number" [(ngModel)]="checklistForm.departureKm" class="form-input">
+        </div>
+        
+        <div class="info-group">
+          <label class="form-label">
+            <i class="icon">📦</i>
+            Jenis Muatan
+          </label>
+          <input type="text" [(ngModel)]="checklistForm.cargoType" placeholder="Cylinder / Dry Ice / LOX, LIN, LAR, CO2 / Gas" class="form-input" required>
+        </div>
       </div>
-      <div class="info-group">
-        <label>Jam Keluar:</label>
-        <input type="time" [(ngModel)]="checklistForm.exitTime" class="form-input">
+      
+      <div class="info-group full-width">
+        <label class="form-label">
+          <i class="icon">📄</i>
+          No. Surat Jalan dan atau Nomor COA
+        </label>
+        <input type="text" [(ngModel)]="checklistForm.roadPermitNumber" class="form-input">
       </div>
-    </div>
-    
-    <div class="info-row">
-      <div class="info-group">
-        <label>Kilometer (KM) Awal:</label>
-        <input type="number" [(ngModel)]="checklistForm.departureKm" class="form-input">
-      </div>
-      <div class="info-group">
-        <label>Jenis Muatan:</label>
-        <input type="text" [(ngModel)]="checklistForm.cargoType" placeholder="Cylinder / Dry Ice / LOX, LIN, LAR, CO2 / Gas" class="form-input" required>
-      </div>
-    </div>
-    
-    <div class="info-row full-width">
-      <label>No. Surat Jalan dan atau Nomor COA:</label>
-      <input type="text" [(ngModel)]="checklistForm.roadPermitNumber" class="form-input">
     </div>
   </div>
 
   <!-- Progress Indicator -->
-  <div class="progress-section">
-    <div class="progress-bar">
-      <div class="progress-fill" [style.width.%]="getCompletionPercentage()"></div>
+  <div class="progress-section card">
+    <div class="card-content">
+      <div class="progress-info">
+        <h4>📊 Progress Checklist</h4>
+        <span class="progress-text">{{ getCompletionPercentage() }}% Selesai</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="getCompletionPercentage()"></div>
+      </div>
     </div>
-    <span class="progress-text">Progress: {{ getCompletionPercentage() }}%</span>
   </div>
 
   <!-- Checklist Table -->
-  <div class="checklist-table">
-    <div class="table-header">
-      <div class="item-header">Pemeriksaan<br><em>Inspection</em></div>
-      <div class="condition-header">
-        <div>Kondisi<br><em>Condition</em></div>
-        <div class="condition-columns">
-          <span class="condition-b">B</span>
-          <span class="condition-tb">TB</span>
+  <div class="checklist-table card">
+    <div class="card-header">
+      <h3>🔧 Daftar Pemeriksaan</h3>
+    </div>
+    <div class="card-content">
+      <div class="table-header">
+        <div class="item-header">
+          <strong>Pemeriksaan</strong><br>
+          <em>Inspection</em>
+        </div>
+        <div class="condition-header">
+          <div class="condition-title">
+            <strong>Kondisi</strong><br>
+            <em>Condition</em>
+          </div>
+          <div class="condition-columns">
+            <span class="condition-b" title="Baik">B</span>
+            <span class="condition-tb" title="Tidak Baik">TB</span>
           <span class="condition-n">N</span>
         </div>
       </div>

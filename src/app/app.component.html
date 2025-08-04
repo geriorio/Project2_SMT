@@ -3,14 +3,33 @@
   <nav class="navbar">
     <div class="nav-content">
       <div class="nav-brand">
-        <h1>🚛 SAMATOR Truck Checklist</h1>
+        <div class="logo-container">
+          <div class="logo">
+            <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="45" fill="#FF6B35" stroke="#FFF" stroke-width="3"/>
+              <text x="50" y="35" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="white" text-anchor="middle">S</text>
+              <text x="50" y="65" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white" text-anchor="middle">GAS</text>
+            </svg>
+          </div>
+          <div class="brand-text">
+            <h1>SAMATOR</h1>
+            <span>Truck Checklist</span>
+          </div>
+        </div>
       </div>
-      <div class="nav-links">
-        <a routerLink="/checklist" routerLinkActive="active" class="nav-link">
-          📝 Checklist Baru
+      <div class="nav-toggle" (click)="toggleMobileMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="nav-links" [class.mobile-open]="isMobileMenuOpen">
+        <a routerLink="/checklist" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()">
+          <i class="icon">📝</i>
+          <span>Checklist Baru</span>
         </a>
-        <a routerLink="/checklist-list" routerLinkActive="active" class="nav-link">
-          📋 Daftar Checklist
+        <a routerLink="/checklist-list" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()">
+          <i class="icon">📋</i>
+          <span>Daftar Checklist</span>
         </a>
       </div>
     </div>
