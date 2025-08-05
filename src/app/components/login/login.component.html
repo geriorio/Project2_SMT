@@ -5,7 +5,7 @@
       <p>Please login to continue</p>
     </div>
     
-    <form (ngSubmit)="onLogin()" class="login-form">
+    <form (ngSubmit)="onLogin()" class="login-form" *ngIf="!isLoading">
       <div class="form-group">
         <label for="username">Username</label>
         <input
@@ -30,7 +30,98 @@
         />
       </div>
       
-      <button type="submit" class="login-btn">Login</button>
+      <button type="submit" class="login-btn">Login with Location</button>
+      
+      <button type="button" class="location-check-btn" (click)="getLocationOnly()">
+        📍 Check My Location Only
+      </button>
+
+      <!-- Demo Credentials -->
+      <div class="demo-section">
+        <p class="demo-title">Demo Credentials:</p>
+        <div class="demo-buttons">
+          <button type="button" class="demo-btn driver" (click)="fillDemoCredentials('driver')">
+            👤 Driver
+          </button>
+          <button type="button" class="demo-btn supervisor" (click)="fillDemoCredentials('supervisor')">
+            👨‍💼 Supervisor
+          </button>
+          <button type="button" class="demo-btn admin" (click)="fillDemoCredentials('admin')">
+            👨‍💻 Admin
+          </button>
+        </div>
+      </div>
     </form>
+
+    <!-- Loading State -->
+    <div class="loading-section" *ngIf="isLoading">
+      <div class="loading-spinner"></div>
+      <p class="loading-text">{{ locationStatus }}</p>
+    </div>
+
+    <!-- Error Message from Query Params -->
+    <div class="error-alert" *ngIf="!isLoading && !showLocationInfo">
+      <!-- This section can be removed since we're simplifying -->
+    </div>
+
+    <!-- Location Information -->
+    <div class="location-info" *ngIf="showLocationInfo && !isLoading">
+      <div class="location-status success">
+        <h3>📍 Location Information</h3>
+        <p>{{ locationStatus }}</p>
+      </div>
+
+      <div class="location-details" *ngIf="userLocation">
+        <h4>📍 Your Current Location</h4>
+        <div class="coordinate-item">
+          <label>Latitude:</label>
+          <div class="coordinate-value">
+            <span>{{ formatCoordinate(userLocation.latitude) }}</span>
+            <button class="copy-btn" (click)="copyToClipboard(formatCoordinate(userLocation.latitude))">
+              📋
+            </button>
+          </div>
+        </div>
+        
+        <div class="coordinate-item">
+          <label>Longitude:</label>
+          <div class="coordinate-value">
+            <span>{{ formatCoordinate(userLocation.longitude) }}</span>
+            <button class="copy-btn" (click)="copyToClipboard(formatCoordinate(userLocation.longitude))">
+              📋
+            </button>
+          </div>
+        </div>
+
+        <div class="coordinate-item">
+          <label>Coordinates:</label>
+          <div class="coordinate-value">
+            <span>{{ formatCoordinate(userLocation.latitude) }}, {{ formatCoordinate(userLocation.longitude) }}</span>
+            <button class="copy-btn" (click)="copyToClipboard(formatCoordinate(userLocation.latitude) + ', ' + formatCoordinate(userLocation.longitude))">
+              📋
+            </button>
+          </div>
+        </div>
+
+        <div class="coordinate-item" *ngIf="userLocation.accuracy">
+          <label>Accuracy:</label>
+          <div class="coordinate-value">
+            <span>{{ userLocation.accuracy.toFixed(0) }}m</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="location-actions">
+        <button class="btn-close" (click)="hideLocationInfo()">
+          ✖ Close
+        </button>
+      </div>
+    </div>
+
+    <!-- Success Message -->
+    <div class="success-message" *ngIf="locationStatus.includes('successfully') && isLoading">
+      <h3>🎉 Location Detected!</h3>
+      <p>Redirecting to dashboard...</p>
+    </div>
   </div>
 </div>
