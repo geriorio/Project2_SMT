@@ -1,0 +1,92 @@
+<div class="odometer-container">
+  <header class="header">
+    <button class="back-btn" (click)="goBack()">← Back</button>
+    <h1>Odometer Reading</h1>
+  </header>
+
+  <main class="odometer-content">
+    <div class="odometer-card">
+      <div class="vehicle-info">
+        <h2>📊 Record Trip Data</h2>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="label">Vehicle:</span>
+            <span class="value">{{ truckBarcode }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Trip Type:</span>
+            <span class="value" [class]="tripType.toLowerCase() + '-badge'">{{ tripType }}</span>
+          </div>
+        </div>
+      </div>
+
+      <form (ngSubmit)="onSubmit()" class="odometer-form">
+        <div class="form-section">
+          <div class="form-group">
+            <label for="odometer" class="required">Odometer Reading (KM)</label>
+            <input
+              type="number"
+              id="odometer"
+              [(ngModel)]="odometerReading"
+              name="odometer"
+              placeholder="Enter current odometer reading"
+              class="odometer-input"
+              min="0"
+              step="0.1"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="driver" class="required">Driver Name</label>
+            <input
+              type="text"
+              id="driver"
+              [(ngModel)]="driverName"
+              name="driver"
+              placeholder="Enter driver's name"
+              class="text-input"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="notes">Additional Notes (Optional)</label>
+            <textarea
+              id="notes"
+              [(ngModel)]="notes"
+              name="notes"
+              placeholder="Enter any additional notes or observations"
+              class="textarea-input"
+              rows="4"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <div class="summary-section">
+            <h4>Trip Summary</h4>
+            <div class="summary-grid">
+              <div class="summary-item">
+                <span class="summary-label">Vehicle:</span>
+                <span class="summary-value">{{ truckBarcode }}</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Type:</span>
+                <span class="summary-value">{{ tripType }}</span>
+              </div>
+              <div class="summary-item" *ngIf="tripType === 'OUT'">
+                <span class="summary-label">Checklist:</span>
+                <span class="summary-value complete">✓ Completed</span>
+              </div>
+            </div>
+          </div>
+          
+          <button type="submit" class="complete-btn">
+            Complete Trip Registration
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+</div>

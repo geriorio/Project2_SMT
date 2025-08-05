@@ -1,0 +1,103 @@
+<div class="scan-container">
+  <header class="header">
+    <button class="back-btn" (click)="goBack()">← Back</button>
+    <h1>Scan Vehicle Barcode</h1>
+  </header>
+
+  <main class="scan-content">
+    <div class="scan-card">
+      <div class="scanner-section">
+        <div class="scanner-frame" [class.scanning]="isScanning">
+          <!-- Camera Video Element -->
+          <video 
+            #videoElement 
+            *ngIf="isScanning && hasCamera" 
+            autoplay 
+            playsinline
+            class="scanner-video">
+          </video>
+          
+          <!-- Scanner Overlay -->
+          <div class="scanner-line" *ngIf="isScanning"></div>
+          <div class="scanner-corners">
+            <div class="corner top-left"></div>
+            <div class="corner top-right"></div>
+            <div class="corner bottom-left"></div>
+            <div class="corner bottom-right"></div>
+          </div>
+          
+          <!-- Scanner Content (when not scanning) -->
+          <div class="scanner-content" *ngIf="!isScanning">
+            <span class="scanner-icon">📱</span>
+            <p *ngIf="!hasCamera" class="camera-error">{{ cameraError }}</p>
+          </div>
+          
+          <!-- Scanning Status -->
+          <div class="scanner-status" *ngIf="isScanning">
+            <span class="scanning-text">🔍 Scanning for barcode...</span>
+            <p class="scan-instruction">Point camera at barcode</p>
+          </div>
+        </div>
+        
+        <div class="scanner-controls">
+          <button 
+            class="scan-btn" 
+            (click)="startScan()"
+            [disabled]="isScanning || !hasCamera"
+            *ngIf="!isScanning"
+          >
+            {{ hasCamera ? 'Start Camera Scan' : 'Camera Unavailable' }}
+          </button>
+          
+          <button 
+            class="stop-btn" 
+            (click)="stopScanning()"
+            *ngIf="isScanning"
+          >
+            Stop Scanning
+          </button>
+        </div>
+        
+        <!-- Camera Error Message -->
+        <div class="error-message" *ngIf="cameraError">
+          <span class="error-icon">⚠️</span>
+          <p>{{ cameraError }}</p>
+          <small>Please use manual input below</small>
+        </div>
+
+        <!-- Scanning Tips -->
+        <div class="scan-tips" *ngIf="hasCamera">
+          <h4>📋 Scanning Tips</h4>
+          <ul>
+            <li>🔦 Ensure good lighting</li>
+            <li>📏 Keep barcode 15-30cm from camera</li>
+            <li>📐 Hold phone steady and parallel to barcode</li>
+            <li>🎯 Center barcode in the scanning area</li>
+            <li>🔍 Wait for auto-focus to stabilize</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="divider">
+        <span>OR</span>
+      </div>
+
+      <div class="manual-input-section">
+        <h3>Enter Barcode Manually</h3>
+        <form (ngSubmit)="onSubmit()">
+          <div class="input-group">
+            <input
+              type="text"
+              [(ngModel)]="barcodeInput"
+              name="barcode"
+              placeholder="Enter vehicle barcode"
+              class="barcode-input"
+            />
+          </div>
+          
+          <button type="submit" class="submit-btn">Continue</button>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>
