@@ -1,0 +1,131 @@
+.complete-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.complete-content {
+  width: 100%;
+  max-width: 500px;
+}
+
+.complete-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  padding: 40px;
+  text-align: center;
+}
+
+.success-section {
+  margin-bottom: 30px;
+}
+
+.success-icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+  animation: bounce 1s ease-in-out;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+.success-section h1 {
+  color: #333;
+  margin-bottom: 15px;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.success-section p {
+  color: #666;
+  font-size: 16px;
+  margin: 0;
+}
+
+.summary-section {
+  margin-bottom: 30px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.summary-section h3 {
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.summary-section p {
+  color: #666;
+  font-size: 16px;
+  margin: 0;
+}
+
+.actions-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.action-btn:hover {
+  transform: translateY(-2px);
+}
+
+.action-btn.primary {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+}
+
+.action-btn.secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.action-btn .icon {
+  font-size: 20px;
+}
+
+@media (max-width: 640px) {
+  .complete-card {
+    padding: 30px 20px;
+  }
+  
+  .success-section h1 {
+    font-size: 24px;
+  }
+  
+  .success-icon {
+    font-size: 48px;
+  }
+  
+  .actions-section {
+    gap: 12px;
+  }
+}

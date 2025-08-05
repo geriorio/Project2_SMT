@@ -1,0 +1,55 @@
+<div class="scan-container">
+  <header class="header">
+    <button class="back-btn" (click)="goBack()">← Back</button>
+    <h1>Scan Vehicle Barcode</h1>
+  </header>
+
+  <main class="scan-content">
+    <div class="scan-card">
+      <div class="scanner-section">
+        <div class="scanner-frame" [class.scanning]="isScanning">
+          <div class="scanner-line" *ngIf="isScanning"></div>
+          <div class="scanner-corners">
+            <div class="corner top-left"></div>
+            <div class="corner top-right"></div>
+            <div class="corner bottom-left"></div>
+            <div class="corner bottom-right"></div>
+          </div>
+          <div class="scanner-content">
+            <span *ngIf="!isScanning" class="scanner-icon">📱</span>
+            <span *ngIf="isScanning" class="scanning-text">Scanning...</span>
+          </div>
+        </div>
+        
+        <button 
+          class="scan-btn" 
+          (click)="startScan()"
+          [disabled]="isScanning"
+        >
+          {{ isScanning ? 'Scanning...' : 'Start Camera Scan' }}
+        </button>
+      </div>
+
+      <div class="divider">
+        <span>OR</span>
+      </div>
+
+      <div class="manual-input-section">
+        <h3>Enter Barcode Manually</h3>
+        <form (ngSubmit)="onSubmit()">
+          <div class="input-group">
+            <input
+              type="text"
+              [(ngModel)]="barcodeInput"
+              name="barcode"
+              placeholder="Enter vehicle barcode"
+              class="barcode-input"
+            />
+          </div>
+          
+          <button type="submit" class="submit-btn">Continue</button>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>

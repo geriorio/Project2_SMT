@@ -1,0 +1,253 @@
+.odometer-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+}
+
+.header {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.back-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.header h1 {
+  color: white;
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.odometer-content {
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.odometer-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  padding: 40px;
+  width: 100%;
+  max-width: 700px;
+}
+
+.vehicle-info {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.vehicle-info h2 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 24px;
+  text-align: center;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8f9fa;
+  padding: 12px 16px;
+  border-radius: 8px;
+}
+
+.info-item .label {
+  color: #666;
+  font-weight: 500;
+}
+
+.info-item .value {
+  color: #333;
+  font-weight: 600;
+  font-family: monospace;
+}
+
+.out-badge {
+  background: #dc3545;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-family: sans-serif !important;
+}
+
+.in-badge {
+  background: #28a745;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-family: sans-serif !important;
+}
+
+.odometer-form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  color: #333;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.form-group label.required::after {
+  content: ' *';
+  color: #dc3545;
+}
+
+.odometer-input,
+.text-input {
+  padding: 15px 20px;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  font-size: 18px;
+  font-family: monospace;
+  text-align: center;
+  transition: border-color 0.3s ease;
+}
+
+.text-input {
+  font-family: inherit;
+  text-align: left;
+}
+
+.textarea-input {
+  padding: 15px 20px;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: inherit;
+  resize: vertical;
+  transition: border-color 0.3s ease;
+}
+
+.odometer-input:focus,
+.text-input:focus,
+.textarea-input:focus {
+  outline: none;
+  border-color: #28a745;
+}
+
+.form-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.summary-section {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.summary-section h4 {
+  color: #333;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.summary-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summary-label {
+  color: #666;
+  font-weight: 500;
+}
+
+.summary-value {
+  color: #333;
+  font-weight: 600;
+  font-family: monospace;
+}
+
+.summary-value.complete {
+  color: #28a745;
+  font-family: inherit;
+}
+
+.complete-btn {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 16px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.complete-btn:hover {
+  transform: translateY(-2px);
+}
+
+@media (max-width: 640px) {
+  .odometer-card {
+    padding: 30px 20px;
+  }
+  
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .info-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+  
+  .summary-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+}

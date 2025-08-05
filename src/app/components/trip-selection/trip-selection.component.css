@@ -1,0 +1,198 @@
+.trip-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.header {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.back-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.header h1 {
+  color: white;
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.trip-content {
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.trip-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  padding: 40px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.vehicle-info {
+  text-align: center;
+  margin-bottom: 40px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #eee;
+}
+
+.vehicle-info h2 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.barcode-display {
+  background: #f8f9fa;
+  padding: 15px 20px;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.barcode-display .label {
+  color: #666;
+  font-weight: 500;
+  margin-right: 10px;
+}
+
+.barcode-display .barcode {
+  color: #333;
+  font-family: monospace;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.selection-section {
+  text-align: center;
+}
+
+.selection-section h3 {
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 22px;
+}
+
+.selection-section p {
+  color: #666;
+  margin-bottom: 30px;
+  font-size: 16px;
+}
+
+.trip-options {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.trip-option {
+  background: white;
+  border: 2px solid #e1e5e9;
+  border-radius: 12px;
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  text-align: left;
+}
+
+.trip-option:hover {
+  border-color: #667eea;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.trip-option.out:hover {
+  border-color: #dc3545;
+  background: #fff5f5;
+}
+
+.trip-option.in:hover {
+  border-color: #28a745;
+  background: #f8fff9;
+}
+
+.option-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.option-content {
+  flex: 1;
+}
+
+.option-content h4 {
+  margin: 0 0 5px 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.trip-option.out .option-content h4 {
+  color: #dc3545;
+}
+
+.trip-option.in .option-content h4 {
+  color: #28a745;
+}
+
+.option-content p {
+  margin: 0 0 5px 0;
+  color: #333;
+  font-size: 16px;
+}
+
+.option-content small {
+  color: #666;
+  font-size: 14px;
+}
+
+.option-arrow {
+  font-size: 24px;
+  color: #ccc;
+  flex-shrink: 0;
+  transition: color 0.3s ease;
+}
+
+.trip-option:hover .option-arrow {
+  color: #667eea;
+}
+
+@media (max-width: 640px) {
+  .trip-options {
+    gap: 15px;
+  }
+  
+  .trip-option {
+    padding: 20px;
+    gap: 15px;
+  }
+  
+  .option-icon {
+    font-size: 28px;
+  }
+  
+  .option-content h4 {
+    font-size: 18px;
+  }
+}
