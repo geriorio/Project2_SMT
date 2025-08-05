@@ -329,44 +329,101 @@
     
     <div class="disposal-options">
       <div class="disposal-option">
-        <input type="radio" 
-               id="layakJalan" 
-               name="roadCondition" 
-               value="suitable"
-               (change)="onRoadConditionChange('suitable')">
-        <label for="layakJalan">1. Layak Jalan</label>
+        <div class="option-header">
+          <span class="option-number">1.</span>
+          <input type="radio" 
+                 id="layakJalan" 
+                 name="roadCondition" 
+                 value="suitable"
+                 (change)="onRoadConditionChange('suitable')">
+          <label for="layakJalan">Layak Jalan</label>
+        </div>
       </div>
       
       <div class="disposal-option">
-        <input type="radio" 
-               id="bolehJalan" 
-               name="roadCondition" 
-               value="canTravel"
-               (change)="onRoadConditionChange('canTravel')">
-        <label for="bolehJalan">2. Boleh Jalan, dengan Catatan</label>
-        <input type="text" 
-               [(ngModel)]="checklistForm.disposalFromDistribution.repairNotes" 
-               placeholder="Estimasi Perbaikan Tanggal"
-               class="disposal-input">
+        <div class="option-header">
+          <span class="option-number">2.</span>
+          <input type="radio" 
+                 id="bolehJalan" 
+                 name="roadCondition" 
+                 value="canTravel"
+                 (change)="onRoadConditionChange('canTravel')">
+          <label for="bolehJalan">Boleh Jalan, dengan Catatan</label>
+        </div>
+        <div class="disposal-inputs">
+          <input type="text" 
+                 [(ngModel)]="checklistForm.disposalFromDistribution.repairNotes" 
+                 placeholder="Catatan"
+                 class="disposal-input">
+          <div class="date-input-container">
+            <label class="date-label">Estimasi Perbaikan Tanggal:</label>
+            <input type="date" 
+                   [(ngModel)]="checklistForm.disposalFromDistribution.estimatedRepairDate" 
+                   class="disposal-input">
+          </div>
+        </div>
       </div>
       
       <div class="disposal-option">
-        <input type="radio" 
-               id="tidakLayakJalan" 
-               name="roadCondition" 
-               value="notSuitable"
-               (change)="onRoadConditionChange('notSuitable')">
-        <label for="tidakLayakJalan">3. Tidak Layak Jalan, Perbaikan Direncanakan Tanggal</label>
-        <input type="text" 
-               [(ngModel)]="checklistForm.disposalFromDistribution.repairContinueDate" 
-               placeholder="Tanggal perbaikan"
-               class="disposal-input">
+        <div class="option-header">
+          <span class="option-number">3.</span>
+          <input type="radio" 
+                 id="tidakLayakJalan" 
+                 name="roadCondition" 
+                 value="notSuitable"
+                 (change)="onRoadConditionChange('notSuitable')">
+          <label for="tidakLayakJalan">Tidak Layak Jalan</label>
+        </div>
+        <div class="date-input-container">
+          <label class="date-label">Estimasi Perbaikan Tanggal:</label>
+          <input type="date" 
+                 [(ngModel)]="checklistForm.disposalFromDistribution.repairContinueDate" 
+                 class="disposal-input">
+        </div>
       </div>
     </div>
     
-    <div class="distribution-signature">
-      <label>Distribusi/Bengkel:</label>
-      <div class="signature-box-small"></div>
+    <!-- Distribution/Workshop Signature Section -->
+    <div class="distribution-signature-section">
+      <div class="signature-box">
+        <label class="signature-label">Distribusi/Bengkel:</label>
+        
+        <!-- Name input -->
+        <div class="signature-name">
+          <input type="text" 
+                 [(ngModel)]="checklistForm.distributionSignatureName" 
+                 placeholder="Nama distribusi/bengkel"
+                 class="signature-input">
+        </div>
+        
+        <!-- Signature canvas -->
+        <div class="signature-pad-container">
+          <canvas #distributionSignatureCanvas
+                  class="signature-canvas"
+                  width="300" 
+                  height="150"
+                  (mousedown)="startDrawing($event, 'distribution')"
+                  (mousemove)="draw($event, 'distribution')"
+                  (mouseup)="stopDrawing('distribution')"
+                  (touchstart)="startDrawing($event, 'distribution')"
+                  (touchmove)="draw($event, 'distribution')"
+                  (touchend)="stopDrawing('distribution')">
+          </canvas>
+          
+          <div class="signature-controls">
+            <button type="button" 
+                    class="btn-clear"
+                    (click)="clearSignature('distribution')">
+              🗑️ Hapus
+            </button>
+            <button type="button" 
+                    class="btn-save"
+                    (click)="saveSignature('distribution')">
+              💾 Simpan
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

@@ -21,6 +21,8 @@ export interface ChecklistForm {
   driverSignature: string;
   driverSignatureName: string;
   inspectorSignature: string;
+  distributionSignature: string;
+  distributionSignatureName: string;
   disposalFromDistribution: {
     suitableRoad: boolean;
     canTravel: boolean;

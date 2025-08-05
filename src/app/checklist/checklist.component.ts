@@ -14,6 +14,7 @@ import { ChecklistForm, ChecklistItem } from '../models/checklist.model';
 export class ChecklistComponent implements OnInit {
   @ViewChild('driverSignatureCanvas', { static: false }) driverSignatureCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('inspectorSignatureCanvas', { static: false }) inspectorSignatureCanvas!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('distributionSignatureCanvas', { static: false }) distributionSignatureCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('driverSignatureCanvasMobile', { static: false }) driverSignatureCanvasMobile!: ElementRef<HTMLCanvasElement>;
   @ViewChild('inspectorSignatureCanvasMobile', { static: false }) inspectorSignatureCanvasMobile!: ElementRef<HTMLCanvasElement>;
   
@@ -189,6 +190,9 @@ export class ChecklistComponent implements OnInit {
     } else if (type === 'inspector') {
       this.checklistForm.inspectorSignature = dataURL;
       alert('Tanda tangan inspector berhasil disimpan!');
+    } else if (type === 'distribution') {
+      this.checklistForm.distributionSignature = dataURL;
+      alert('Tanda tangan distribusi/bengkel berhasil disimpan!');
     }
   }
 
@@ -212,6 +216,10 @@ export class ChecklistComponent implements OnInit {
       }
       // Fallback to desktop canvas
       return this.inspectorSignatureCanvas?.nativeElement;
+    } else if (type === 'distribution') {
+      if (this.distributionSignatureCanvas) {
+        return this.distributionSignatureCanvas.nativeElement;
+      }
     }
     throw new Error('Invalid signature type');
   }
