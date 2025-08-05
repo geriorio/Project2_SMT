@@ -19,6 +19,8 @@ export interface ChecklistForm {
   notes: string;
   inspectedBy: string;
   driverSignature: string;
+  driverSignatureName: string;
+  inspectorSignature: string;
   disposalFromDistribution: {
     suitableRoad: boolean;
     canTravel: boolean;

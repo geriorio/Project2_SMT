@@ -27,6 +27,8 @@ export class ChecklistService {
       notes: '',
       inspectedBy: '',
       driverSignature: '',
+      driverSignatureName: '',
+      inspectorSignature: '',
       disposalFromDistribution: {
         suitableRoad: false,
         canTravel: false,

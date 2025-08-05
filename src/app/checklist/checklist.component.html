@@ -190,21 +190,134 @@
 
   <!-- Notes Section -->
   <div class="notes-section">
-    <div class="notes-row">
-      <label>Catatan:</label>
-      <div class="signature-section">
-        <label>Sopir:</label>
-        <label>Diinspeksi Oleh:</label>
-      </div>
-    </div>
     <div class="notes-content">
-      <textarea [(ngModel)]="checklistForm.notes" placeholder="Tambahkan catatan disini..." class="notes-textarea"></textarea>
-      <div class="signatures">
+      <!-- Column 1: Catatan -->
+      <div class="notes-column">
+        <label class="signature-label">Catatan:</label>
+        <textarea [(ngModel)]="checklistForm.notes" placeholder="Tambahkan catatan disini..." class="notes-textarea"></textarea>
+      </div>
+      
+      <!-- Column 2: Tanda Tangan Sopir -->
+      <div class="notes-column">
         <div class="signature-box">
-          <input type="text" [(ngModel)]="checklistForm.driverSignature" placeholder="Tanda tangan sopir" class="signature-input">
+          <label class="signature-label">Tanda Tangan Sopir:</label>
+          <input type="text" [(ngModel)]="checklistForm.driverSignatureName" placeholder="Nama sopir" class="signature-input" required>
+          <div class="signature-pad-container">
+            <canvas 
+              #driverSignatureCanvas
+              class="signature-canvas"
+              width="400"
+              height="160"
+              (mousedown)="startDrawing($event, 'driver')"
+              (mousemove)="draw($event, 'driver')"
+              (mouseup)="stopDrawing('driver')"
+              (touchstart)="startDrawing($event, 'driver')"
+              (touchmove)="draw($event, 'driver')"
+              (touchend)="stopDrawing('driver')">
+            </canvas>
+            <div class="signature-controls">
+              <button type="button" (click)="clearSignature('driver')" class="btn-clear">
+                🗑️ Hapus
+              </button>
+              <button type="button" (click)="saveSignature('driver')" class="btn-save">
+                💾 Simpan
+              </button>
+            </div>
+          </div>
+          <input type="hidden" [(ngModel)]="checklistForm.driverSignature">
+        </div>
+      </div>
+      
+      <!-- Column 3: Diinspeksi Oleh -->
+      <div class="notes-column">
+        <div class="signature-box">
+          <label class="signature-label">Diinspeksi Oleh:</label>
+          <input type="text" [(ngModel)]="checklistForm.inspectedBy" placeholder="Nama inspector" class="signature-input" required>
+          <div class="signature-pad-container">
+            <canvas 
+              #inspectorSignatureCanvas
+              class="signature-canvas"
+              width="400"
+              height="160"
+              (mousedown)="startDrawing($event, 'inspector')"
+              (mousemove)="draw($event, 'inspector')"
+              (mouseup)="stopDrawing('inspector')"
+              (touchstart)="startDrawing($event, 'inspector')"
+              (touchmove)="draw($event, 'inspector')"
+              (touchend)="stopDrawing('inspector')">
+            </canvas>
+            <div class="signature-controls">
+              <button type="button" (click)="clearSignature('inspector')" class="btn-clear">
+                🗑️ Hapus
+              </button>
+              <button type="button" (click)="saveSignature('inspector')" class="btn-save">
+                💾 Simpan
+              </button>
+            </div>
+          </div>
+          <input type="hidden" [(ngModel)]="checklistForm.inspectorSignature">
+        </div>
+      </div>
+      
+      <!-- Fallback for mobile/tablet - original structure hidden on desktop -->
+      <div class="mobile-only">
+        <label class="signature-label">Catatan:</label>
+        <textarea [(ngModel)]="checklistForm.notes" placeholder="Tambahkan catatan disini..." class="notes-textarea mobile-only"></textarea>
+      </div>
+      <div class="signatures mobile-only">
+        <div class="signature-box">
+          <label class="signature-label">Tanda Tangan Sopir:</label>
+          <input type="text" [(ngModel)]="checklistForm.driverSignatureName" placeholder="Nama sopir" class="signature-input" required>
+          <div class="signature-pad-container">
+            <canvas 
+              #driverSignatureCanvasMobile
+              class="signature-canvas"
+              width="400"
+              height="160"
+              (mousedown)="startDrawing($event, 'driver')"
+              (mousemove)="draw($event, 'driver')"
+              (mouseup)="stopDrawing('driver')"
+              (touchstart)="startDrawing($event, 'driver')"
+              (touchmove)="draw($event, 'driver')"
+              (touchend)="stopDrawing('driver')">
+            </canvas>
+            <div class="signature-controls">
+              <button type="button" (click)="clearSignature('driver')" class="btn-clear">
+                🗑️ Hapus
+              </button>
+              <button type="button" (click)="saveSignature('driver')" class="btn-save">
+                💾 Simpan
+              </button>
+            </div>
+          </div>
+          <input type="hidden" [(ngModel)]="checklistForm.driverSignature">
         </div>
         <div class="signature-box">
+          <label class="signature-label">Diinspeksi Oleh:</label>
           <input type="text" [(ngModel)]="checklistForm.inspectedBy" placeholder="Nama inspector" class="signature-input" required>
+          <div class="signature-pad-container">
+            <canvas 
+              #inspectorSignatureCanvasMobile
+              class="signature-canvas"
+              width="400"
+              height="160"
+              (mousedown)="startDrawing($event, 'inspector')"
+              (mousemove)="draw($event, 'inspector')"
+              (mouseup)="stopDrawing('inspector')"
+              (touchstart)="startDrawing($event, 'inspector')"
+              (touchmove)="draw($event, 'inspector')"
+              (touchend)="stopDrawing('inspector')">
+            </canvas>
+            <div class="signature-controls">
+              <button type="button" (click)="clearSignature('inspector')" class="btn-clear">
+                🗑️ Hapus
+              </button>
+              <button type="button" (click)="saveSignature('inspector')" class="btn-save">
+                💾 Simpan
+              </button>
+            </div>
+          </div>
+          <input type="hidden" [(ngModel)]="checklistForm.inspectorSignature">
         </div>
       </div>
     </div>
