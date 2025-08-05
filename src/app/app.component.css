@@ -7,9 +7,9 @@
 
 /* Navigation */
 .navbar {
-  background: linear-gradient(135deg, #FF6B35, #E55528);
+  background: linear-gradient(135deg, #2E4A7A, #1E3A5F);
   color: white;
-  box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3);
+  box-shadow: 0 4px 20px rgba(46, 74, 122, 0.3);
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -21,8 +21,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 20px;
+  padding: 8px 20px;
   position: relative;
+  min-height: 64px;
 }
 
 .nav-brand {
@@ -33,13 +34,19 @@
 .logo-container {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 15px;
+  height: 100%;
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.logo-image {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.logo-image:hover {
+  transform: scale(1.1);
 }
 
 .brand-text h1 {
@@ -105,7 +112,7 @@
 
 .nav-link.active {
   background-color: white;
-  color: #FF6B35;
+  color: #2E4A7A;
   box-shadow: 0 4px 15px rgba(0,0,0,0.2);
   font-weight: 600;
 }
@@ -147,7 +154,7 @@
     right: -100%;
     height: 100vh;
     width: 280px;
-    background: linear-gradient(135deg, #FF6B35, #E55528);
+    background: linear-gradient(135deg, #2E4A7A, #1E3A5F);
     flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;
@@ -182,9 +189,8 @@
     font-size: 11px;
   }
 
-  .logo svg {
-    width: 35px;
-    height: 35px;
+  .logo-image {
+    height: 38px;
   }
 
   .main-content {
@@ -209,8 +215,7 @@
     font-size: 10px;
   }
 
-  .logo svg {
-    width: 30px;
+  .logo-image {
     height: 30px;
   }
 

@@ -18,7 +18,7 @@
 }
 
 .card-header {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #2E4A7A, #3E5A8A);
   color: white;
   padding: 16px 20px;
   border-bottom: 1px solid #e9ecef;
@@ -46,28 +46,37 @@
 
 .form-input:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #2E4A7A;
+  box-shadow: 0 0 0 3px rgba(46, 74, 122, 0.1);
 }
 
 /* Header */
 .header {
-  background: linear-gradient(135deg, #FF6B35, #E55528);
+  background: linear-gradient(135deg, #2E4A7A, #1E3A5F);
   color: white;
   border-radius: 20px;
   padding: 24px;
   margin-bottom: 24px;
-  box-shadow: 0 8px 32px rgba(255, 107, 53, 0.3);
+  box-shadow: 0 8px 32px rgba(46, 74, 122, 0.3);
 }
 
 .logo-section {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 24px;
+  flex-wrap: wrap;
 }
 
-.company-logo {
+.logo-image {
+  height: 100px;
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease;
   flex-shrink: 0;
+}
+
+.logo-image:hover {
+  transform: scale(1.05);
 }
 
 .company-info h1 {
@@ -159,7 +168,7 @@
 }
 
 .progress-text {
-  color: #FF6B35;
+  color: #2E4A7A;
   font-weight: 600;
   font-size: 16px;
 }
@@ -174,9 +183,9 @@
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #FF6B35, #E55528);
+  background: linear-gradient(90deg, #2E4A7A, #1E3A5F);
   transition: width 0.5s ease;
-  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+  box-shadow: 0 2px 8px rgba(46, 74, 122, 0.3);
 }
 
 .progress-text {
@@ -195,7 +204,7 @@
   display: grid;
   grid-template-columns: 2fr 1fr;
   background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-  border-bottom: 2px solid #FF6B35;
+  border-bottom: 2px solid #2E4A7A;
   font-weight: 600;
   color: #2c3e50;
 }
@@ -299,6 +308,35 @@
   width: 150px;
 }
 
+/* Styling khusus untuk input Lain-lain */
+.lain-lain-input {
+  width: 150px;
+  display: flex;
+  align-items: center;
+}
+
+.lain-lain-text {
+  width: 100%;
+  padding: 8px 12px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  background: white;
+  min-height: 36px;
+}
+
+.lain-lain-text:focus {
+  outline: none;
+  border-color: #2E4A7A;
+  box-shadow: 0 0 0 3px rgba(46, 74, 122, 0.1);
+}
+
+.lain-lain-text::placeholder {
+  color: #9ca3af;
+  font-style: italic;
+}
+
 .condition-btn {
   flex: 1;
   padding: 8px 4px;
@@ -333,31 +371,45 @@
 
 /* Legend */
 .legend {
-  margin: 20px 0;
-  padding: 15px;
-  background-color: #f8f9fa;
-  border: 1px solid #dee2e6;
-  border-radius: 5px;
+  margin-bottom: 24px;
+}
+
+.legend .card-content {
+  padding: 20px;
 }
 
 .legend-item {
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   font-size: 14px;
+  color: #2c3e50;
+}
+
+.legend-item:first-of-type {
+  margin-bottom: 12px;
 }
 
 .legend-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-top: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
 }
 
 .legend-grid div {
-  padding: 5px;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 3px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
   text-align: center;
+  font-weight: 600;
+  color: #495057;
+  transition: all 0.3s ease;
+}
+
+.legend-grid div:hover {
+  border-color: #2E4A7A;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(46, 74, 122, 0.15);
 }
 
 /* Notes Section */
@@ -549,7 +601,7 @@
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #FF6B35, #E55528);
+  background: linear-gradient(135deg, #2E4A7A, #1E3A5F);
   color: white;
   border: 2px solid transparent;
 }
@@ -568,8 +620,8 @@
 
 .btn-secondary:hover:not(:disabled) {
   background: #f8f9fa;
-  border-color: #FF6B35;
-  color: #FF6B35;
+  border-color: #2E4A7A;
+  color: #2E4A7A;
   transform: translateY(-2px);
 }
 
@@ -613,7 +665,11 @@
   .logo-section {
     flex-direction: column;
     text-align: center;
-    gap: 12px;
+    gap: 16px;
+  }
+  
+  .logo-image {
+    height: 65px;
   }
   
   .company-info h1 {
@@ -622,11 +678,6 @@
   
   .company-info h2 {
     font-size: 13px;
-  }
-  
-  .company-logo svg {
-    width: 45px;
-    height: 45px;
   }
   
   .card {
@@ -794,9 +845,8 @@
     font-size: 11px;
   }
   
-  .company-logo svg {
-    width: 35px;
-    height: 35px;
+  .logo-image {
+    height: 45px;
   }
   
   .card-content {

@@ -23,6 +23,7 @@ export class ChecklistService {
       cargoType: '',
       roadPermitNumber: '',
       items: this.getChecklistItems(),
+      lainLainText: '', // Field untuk input text "Lain-lain"
       notes: '',
       inspectedBy: '',
       driverSignature: '',

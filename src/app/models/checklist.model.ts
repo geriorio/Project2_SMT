@@ -15,6 +15,7 @@ export interface ChecklistForm {
   cargoType: string;
   roadPermitNumber: string;
   items: ChecklistItem[];
+  lainLainText: string; // Field khusus untuk input text "Lain-lain"
   notes: string;
   inspectedBy: string;
   driverSignature: string;

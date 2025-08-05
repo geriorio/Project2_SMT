@@ -2,13 +2,7 @@
   <!-- Header -->
   <div class="header">
     <div class="logo-section">
-      <div class="company-logo">
-        <svg width="60" height="60" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="50" cy="50" r="45" fill="#FF6B35" stroke="#FFF" stroke-width="3"/>
-          <text x="50" y="38" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="white" text-anchor="middle">S</text>
-          <text x="50" y="68" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">GAS</text>
-        </svg>
-      </div>
+      <img src="assets/images/samator.jpg" alt="Samator Logo" class="logo-image">
       <div class="company-info">
         <h1>SAMATOR</h1>
         <h2>CHECKLIST PEMERIKSAAN/INSPEKSI KENDARAAN</h2>
@@ -99,6 +93,32 @@
     </div>
   </div>
 
+  <!-- Legend -->
+  <div class="legend card">
+    <div class="card-header">
+      <h3>📖 Petunjuk Pengisian</h3>
+    </div>
+    <div class="card-content">
+      <div class="legend-item">
+        <strong>Keterangan:</strong>
+      </div>
+      <div class="legend-item">
+        Beri tanda tick mark (✓) pada kolom B / TB / N sesuai hasil pemeriksaan
+      </div>
+      <div class="legend-item">
+        * Coret salah satu
+      </div>
+      <div class="legend-item">
+        ** Masih dijinkan keluar perusahaan
+      </div>
+      <div class="legend-grid">
+        <div><strong>B</strong> = Baik</div>
+        <div><strong>TB</strong> = Tidak Baik</div>
+        <div><strong>N</strong> = Not Available / Tidak Dijumpai</div>
+      </div>
+    </div>
+  </div>
+
   <!-- Checklist Table -->
   <div class="checklist-table card">
     <div class="card-header">
@@ -130,7 +150,18 @@
       <div *ngFor="let item of categorizedItems[category]; let i = index" class="checklist-row">
         <div class="item-number">{{ item.id }}</div>
         <div class="item-name">{{ item.name }}</div>
-        <div class="condition-buttons">
+        
+        <!-- Khusus untuk item 51 (Lain-lain) - gunakan input text -->
+        <div *ngIf="item.id === 51" class="lain-lain-input">
+          <input 
+            type="text" 
+            [(ngModel)]="checklistForm.lainLainText" 
+            placeholder="Tuliskan keterangan"
+            class="form-input lain-lain-text">
+        </div>
+        
+        <!-- Untuk item selain 51 - gunakan condition buttons -->
+        <div *ngIf="item.id !== 51" class="condition-buttons">
           <button 
             type="button"
             class="condition-btn condition-b"
@@ -154,27 +185,6 @@
           </button>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- Legend -->
-  <div class="legend">
-    <div class="legend-item">
-      <strong>Keterangan:</strong>
-    </div>
-    <div class="legend-item">
-      Beri tanda tick mark (✓) pada kolom B / TB / N sesuai hasil pemeriksaan
-    </div>
-    <div class="legend-item">
-      * Coret salah satu
-    </div>
-    <div class="legend-item">
-      ** Masih dijinkan keluar perusahaan
-    </div>
-    <div class="legend-grid">
-      <div><strong>B</strong> = Baik</div>
-      <div><strong>TB</strong> = Tidak Baik</div>
-      <div><strong>N</strong> = Not Available / Tidak Dijumpai</div>
     </div>
   </div>
 

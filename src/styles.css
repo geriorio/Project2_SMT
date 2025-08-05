@@ -67,15 +67,15 @@ body {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #FF6B35 0%, #E55528 100%);
+  background: linear-gradient(135deg, #2E4A7A 0%, #1E3A5F 100%);
   color: white;
   border: 2px solid transparent;
 }
 
 .btn-primary:hover:not(:disabled) {
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
-  background: linear-gradient(135deg, #E55528 0%, #CC4A1F 100%);
+  box-shadow: 0 6px 20px rgba(46, 74, 122, 0.4);
+  background: linear-gradient(135deg, #1E3A5F 0%, #0F2A4F 100%);
 }
 
 .btn-success {
@@ -116,8 +116,8 @@ body {
 
 .btn-secondary:hover:not(:disabled) {
   background: #f8f9fa;
-  border-color: #FF6B35;
-  color: #FF6B35;
+  border-color: #2E4A7A;
+  color: #2E4A7A;
   transform: translateY(-2px);
 }
 
@@ -136,8 +136,8 @@ body {
 
 .form-input:focus {
   outline: none;
-  border-color: #FF6B35;
-  box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.15);
+  border-color: #2E4A7A;
+  box-shadow: 0 0 0 4px rgba(46, 74, 122, 0.15);
   transform: translateY(-1px);
 }
 
@@ -187,7 +187,7 @@ body {
   width: 24px;
   height: 24px;
   border: 3px solid #f3f3f3;
-  border-top: 3px solid #FF6B35;
+  border-top: 3px solid #2E4A7A;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -222,12 +222,14 @@ body {
 
 /* Additional Samator theme colors */
 :root {
-  --samator-primary: #FF6B35;
-  --samator-primary-dark: #E55528;
+  --samator-primary: #2E4A7A;
+  --samator-primary-dark: #1E3A5F;
+  --samator-primary-light: #3E5A8A;
   --samator-secondary: #2c3e50;
   --samator-light: #f8f9fa;
   --samator-success: #28a745;
   --samator-warning: #ffc107;
   --samator-danger: #dc3545;
   --samator-info: #17a2b8;
+  --samator-accent: #B91B3C;
 }
