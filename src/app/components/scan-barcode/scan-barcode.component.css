@@ -1,0 +1,403 @@
+.scan-container {
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.back-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.header h1 {
+  color: white;
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.scan-content {
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.scan-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  padding: 40px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.scanner-section {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.scanner-frame {
+  width: 320px;
+  height: 240px;
+  border: 2px dashed #ccc;
+  border-radius: 12px;
+  margin: 0 auto 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+  overflow: hidden;
+}
+
+.scanner-frame.scanning {
+  border-color: #28a745;
+  background: #e8f5e8;
+}
+
+.scanner-frame.scan-success {
+  border-color: #28a745;
+  background: #d4edda;
+  animation: successPulse 0.5s ease-in-out;
+}
+
+@keyframes successPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Video Element Styling */
+.scanner-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Scanner Overlay */
+.scanner-corners {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #667eea;
+}
+
+.top-left {
+  top: 10px;
+  left: 10px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.top-right {
+  top: 10px;
+  right: 10px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.bottom-left {
+  bottom: 10px;
+  left: 10px;
+  border-right: none;
+  border-top: none;
+}
+
+.bottom-right {
+  bottom: 10px;
+  right: 10px;
+  border-left: none;
+  border-top: none;
+}
+
+.scanner-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #28a745;
+  animation: scan 2s linear infinite;
+  z-index: 3;
+}
+
+@keyframes scan {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+.scanner-content {
+  z-index: 1;
+  text-align: center;
+}
+
+.scanner-icon {
+  font-size: 48px;
+  color: #ccc;
+}
+
+/* Scanner Status */
+.scanner-status {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  z-index: 4;
+}
+
+.scanning-text {
+  color: #28a745;
+  font-weight: 600;
+  font-size: 14px;
+  display: block;
+}
+
+.scan-instruction {
+  color: #fff;
+  font-size: 12px;
+  margin: 4px 0 0 0;
+}
+
+/* Scanner Controls */
+.scanner-controls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.stop-btn {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.stop-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* Error Handling */
+.error-message {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 8px;
+  padding: 15px;
+  margin-top: 15px;
+  text-align: center;
+}
+
+.error-icon {
+  font-size: 20px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.error-message p {
+  color: #856404;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.error-message small {
+  color: #6c757d;
+  font-size: 13px;
+}
+
+.camera-error {
+  color: #dc3545;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+/* Scanning Tips */
+.scan-tips {
+  background: #e3f2fd;
+  border: 1px solid #bbdefb;
+  border-radius: 8px;
+  padding: 15px;
+  margin-top: 20px;
+  text-align: left;
+}
+
+.scan-tips h4 {
+  color: #1976d2;
+  margin-bottom: 10px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.scan-tips ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.scan-tips li {
+  color: #424242;
+  font-size: 14px;
+  margin-bottom: 5px;
+  padding-left: 5px;
+}
+
+.scan-tips li:last-child {
+  margin-bottom: 0;
+}
+
+/* Enhanced mobile responsive */
+@media (max-width: 640px) {
+  .scanner-frame {
+    width: 280px;
+    height: 200px;
+  }
+  
+  .scan-tips {
+    margin-top: 15px;
+    padding: 12px;
+  }
+  
+  .scan-tips h4 {
+    font-size: 14px;
+  }
+  
+  .scan-tips li {
+    font-size: 13px;
+  }
+}
+
+.scan-btn {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.scan-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.scan-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.divider {
+  text-align: center;
+  margin: 30px 0;
+  position: relative;
+}
+
+.divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #dee2e6;
+}
+
+.divider span {
+  background: white;
+  padding: 0 20px;
+  color: #666;
+  font-weight: 500;
+}
+
+.manual-input-section {
+  text-align: center;
+}
+
+.manual-input-section h3 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.barcode-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  font-size: 16px;
+  text-align: center;
+  font-family: monospace;
+  transition: border-color 0.3s ease;
+}
+
+.barcode-input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.submit-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  width: 100%;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+}

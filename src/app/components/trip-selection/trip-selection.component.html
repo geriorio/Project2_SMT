@@ -1,0 +1,45 @@
+<div class="trip-container">
+  <header class="header">
+    <button class="back-btn" (click)="goBack()">← Back</button>
+    <h1>Trip Type Selection</h1>
+  </header>
+
+  <main class="trip-content">
+    <div class="trip-card">
+      <div class="vehicle-info">
+        <h2>🚚 Vehicle Information</h2>
+        <div class="barcode-display">
+          <span class="label">Barcode:</span>
+          <span class="barcode">{{ truckBarcode }}</span>
+        </div>
+      </div>
+
+      <div class="selection-section">
+        <h3>Select Trip Type</h3>
+        <p>Choose whether this vehicle is going OUT or coming IN</p>
+        
+        <div class="trip-options">
+          <button class="trip-option out" (click)="selectTripType('OUT')">
+            <div class="option-icon">🚛</div>
+            <div class="option-content">
+              <h4>OUT</h4>
+              <p>Vehicle leaving</p>
+              <small>Requires checklist + odometer</small>
+            </div>
+            <div class="option-arrow">→</div>
+          </button>
+
+          <button class="trip-option in" (click)="selectTripType('IN')">
+            <div class="option-icon">🏠</div>
+            <div class="option-content">
+              <h4>IN</h4>
+              <p>Vehicle returning</p>
+              <small>Odometer only</small>
+            </div>
+            <div class="option-arrow">→</div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
