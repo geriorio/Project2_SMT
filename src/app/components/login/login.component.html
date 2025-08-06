@@ -54,12 +54,11 @@
           <div class="form-group">
             <label for="manualLatitude">Latitude *</label>
             <input
-              type="number"
+              type="text"
               id="manualLatitude"
               [(ngModel)]="manualLatitude"
               name="manualLatitude"
               placeholder="e.g., -6.2088"
-              step="0.000001"
               (input)="onCoordinateChange()"
               [class.error]="errorMessage"
               required
@@ -69,12 +68,11 @@
           <div class="form-group">
             <label for="manualLongitude">Longitude *</label>
             <input
-              type="number"
+              type="text"
               id="manualLongitude"
               [(ngModel)]="manualLongitude"
               name="manualLongitude"
               placeholder="e.g., 106.8456"
-              step="0.000001"
               (input)="onCoordinateChange()"
               [class.error]="errorMessage"
               required

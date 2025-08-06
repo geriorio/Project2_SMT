@@ -51,13 +51,15 @@ export class LoginComponent {
     }
 
     // Validasi manual location (always required now)
-    if (!this.manualLatitude.trim() || !this.manualLongitude.trim()) {
+    if (!this.manualLatitude || !this.manualLongitude || 
+        this.manualLatitude.toString().trim() === '' || 
+        this.manualLongitude.toString().trim() === '') {
       this.errorMessage = 'Please enter both latitude and longitude';
       return;
     }
     
-    const lat = parseFloat(this.manualLatitude);
-    const lng = parseFloat(this.manualLongitude);
+    const lat = parseFloat(this.manualLatitude.toString().trim());
+    const lng = parseFloat(this.manualLongitude.toString().trim());
     
     if (isNaN(lat) || isNaN(lng)) {
       this.errorMessage = 'Please enter valid numeric coordinates';
