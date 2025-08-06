@@ -7,8 +7,8 @@ export const environment = {
     },
     apiKey: 'XEbogZ3f0YDe5fLyzq8CXhMmuksP3TpJufSp80gfb3SyD',
     basicAuth: {
-      username: '', // Ganti dengan username Epicor Anda
-      password: ''  // Ganti dengan password Epicor Anda
+      username: 'christopher', // Ganti dengan username Epicor Anda
+      password: 'Chr15topherb@'  // Ganti dengan password Epicor Anda
     }
   }
 };
