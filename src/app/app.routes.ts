@@ -6,15 +6,16 @@ import { TripSelectionComponent } from './components/trip-selection/trip-selecti
 import { ChecklistComponent } from './components/checklist/checklist.component';
 import { OdometerComponent } from './components/odometer/odometer.component';
 import { TripCompleteComponent } from './components/trip-complete/trip-complete.component';
+import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'landing', component: LandingComponent },
-  { path: 'scan-barcode', component: ScanBarcodeComponent },
-  { path: 'trip-selection', component: TripSelectionComponent },
-  { path: 'checklist', component: ChecklistComponent },
-  { path: 'odometer', component: OdometerComponent },
-  { path: 'trip-complete', component: TripCompleteComponent },
+  { path: 'landing', component: LandingComponent, canActivate: [AuthGuard] },
+  { path: 'scan-barcode', component: ScanBarcodeComponent, canActivate: [AuthGuard] },
+  { path: 'trip-selection', component: TripSelectionComponent, canActivate: [AuthGuard] },
+  { path: 'checklist', component: ChecklistComponent, canActivate: [AuthGuard] },
+  { path: 'odometer', component: OdometerComponent, canActivate: [AuthGuard] },
+  { path: 'trip-complete', component: TripCompleteComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '/login' }
 ];

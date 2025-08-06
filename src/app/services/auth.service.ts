@@ -1,13 +1,31 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { GeolocationService, UserLocation, GeofenceLocation } from './geolocation.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
+import { GeolocationService, UserLocation } from './geolocation.service';
+import { environment } from '../../environments/environment';
 
 export interface AuthUser {
   username: string;
+  empCode: string;
+  site: string;
   role: string;
   loginTime: Date;
   location?: UserLocation;
-  allowedLocation?: GeofenceLocation;
+  apiResponse?: any;
+}
+
+export interface LoginRequest {
+  logonSite: string;
+  logonEMP: string;
+  curLatitude: number;
+  curLongitude: number;
+}
+
+export interface LoginResponse {
+  success: boolean;
+  message?: string;
+  data?: any;
+  error?: string;
 }
 
 @Injectable({
@@ -18,59 +36,170 @@ export class AuthService {
   public currentUser$ = this.currentUserSubject.asObservable();
 
   private readonly STORAGE_KEY = 'smt_auth_user';
+  private readonly API_URL = `${environment.api.baseUrl}${environment.api.endpoints.login}`;
+  private readonly API_KEY = environment.api.apiKey;
+  
+  // Basic Auth credentials dari environment
+  private readonly BASIC_AUTH_USERNAME = environment.api.basicAuth.username;
+  private readonly BASIC_AUTH_PASSWORD = environment.api.basicAuth.password;
 
-  constructor(private geolocationService: GeolocationService) {
+  constructor(
+    private http: HttpClient,
+    private geolocationService: GeolocationService
+  ) {
     // Check if user is already logged in
     this.loadUserFromStorage();
   }
 
   /**
-   * Login dengan validasi geofence
+   * Login dengan API Samator
    */
-  async login(username: string, password: string): Promise<{ success: boolean; message: string; user?: AuthUser }> {
-    // Validasi kredensial
-    const user = this.validateCredentials(username, password);
-    if (!user) {
-      return {
-        success: false,
-        message: 'Invalid username or password'
-      };
-    }
+  async login(empCode: string, site: string): Promise<{ success: boolean; message: string; user?: AuthUser }> {
+    return this.loginWithLocation(empCode, site);
+  }
 
-    // Validasi lokasi
+  /**
+   * Login dengan custom location atau auto-detect location
+   */
+  async loginWithLocation(empCode: string, site: string, customLocation?: UserLocation): Promise<{ success: boolean; message: string; user?: AuthUser }> {
     try {
-      const locationValidation = await this.geolocationService.validateLocationForLogin();
-      
-      if (!locationValidation.success) {
+      // Validasi input
+      if (!empCode.trim()) {
         return {
           success: false,
-          message: locationValidation.message
+          message: 'Employee code is required'
         };
       }
 
-      // Login berhasil
-      const authUser: AuthUser = {
-        username: user.username,
-        role: user.role,
-        loginTime: new Date(),
-        location: locationValidation.location,
-        allowedLocation: locationValidation.nearestLocation
+      if (!site.trim()) {
+        return {
+          success: false,
+          message: 'Site code is required'
+        };
+      }
+
+      // Custom location is now required
+      if (!customLocation) {
+        return {
+          success: false,
+          message: 'Location coordinates are required'
+        };
+      }
+
+      const location = customLocation;
+
+      // Prepare request body
+      const loginRequest: LoginRequest = {
+        logonSite: site.trim().toUpperCase(),
+        logonEMP: empCode.trim().toUpperCase(),
+        curLatitude: location.latitude,
+        curLongitude: location.longitude
       };
 
-      this.setCurrentUser(authUser);
-      this.saveUserToStorage(authUser);
+      console.log('Login Request:', loginRequest);
 
-      return {
-        success: true,
-        message: `Login successful at ${locationValidation.nearestLocation?.name}`,
-        user: authUser
-      };
+      // Prepare headers dengan Basic Auth dan API Key
+      const basicAuth = btoa(`${this.BASIC_AUTH_USERNAME}:${this.BASIC_AUTH_PASSWORD}`);
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Basic ${basicAuth}`,
+        'X-API-Key': this.API_KEY
+      });
 
-    } catch (error) {
+      console.log('Request Headers:', {
+        'Content-Type': 'application/json',
+        'Authorization': `Basic ${basicAuth}`,
+        'X-API-Key': this.API_KEY
+      });
+
+      console.log('API URL:', this.API_URL);
+
+      // Make API call
+      const response = await firstValueFrom(
+        this.http.post<any>(this.API_URL, loginRequest, { headers })
+      );
+
+      console.log('API Response:', response);
+
+      // Check if login successful
+      // API Samator mengembalikan {} (empty object) jika login berhasil
+      // atau bisa jadi response dengan success: true atau Success: true
+      const isLoginSuccessful = response !== null && response !== undefined && (
+        // Check untuk empty object {} - ini yang terjadi di API Samator
+        (typeof response === 'object' && Object.keys(response).length === 0) ||
+        // Check untuk response dengan success flag
+        response.success === true || 
+        response.Success === true || 
+        response.status === 'success' ||
+        response.Status === 'success'
+      );
+
+      if (isLoginSuccessful) {
+        // Login berhasil
+        const authUser: AuthUser = {
+          username: empCode.trim().toUpperCase(),
+          empCode: empCode.trim().toUpperCase(),
+          site: site.trim().toUpperCase(),
+          role: this.determineRole(empCode), // Tentukan role berdasarkan empCode
+          loginTime: new Date(),
+          location: location,
+          apiResponse: response
+        };
+
+        this.setCurrentUser(authUser);
+        this.saveUserToStorage(authUser);
+
+        console.log('Login successful! User authenticated:', authUser);
+
+        return {
+          success: true,
+          message: 'Login successful!',
+          user: authUser
+        };
+      } else {
+        console.log('Login failed. Response does not indicate success:', response);
+        return {
+          success: false,
+          message: response?.message || response?.Message || response?.error || 'Login failed. Please check your credentials.'
+        };
+      }
+
+    } catch (error: any) {
+      console.error('Login error:', error);
+      
+      let errorMessage = 'Login failed. Please try again.';
+      
+      if (error.status === 401) {
+        errorMessage = 'Invalid credentials. Please check your employee code and site.';
+      } else if (error.status === 403) {
+        errorMessage = 'Access denied. You are not authorized to use this application.';
+      } else if (error.status === 0) {
+        errorMessage = 'Network error. Please check your internet connection.';
+      } else if (error.error?.message || error.error?.Message) {
+        errorMessage = error.error.message || error.error.Message;
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+
       return {
         success: false,
-        message: `Location access error: ${error instanceof Error ? error.message : 'Unknown error'}`
+        message: errorMessage
       };
+    }
+  }
+
+  /**
+   * Tentukan role berdasarkan empCode
+   */
+  private determineRole(empCode: string): string {
+    // Implementasi sederhana untuk menentukan role
+    // Anda bisa menyesuaikan logic ini sesuai dengan aturan perusahaan
+    if (empCode.includes('SUP') || empCode.includes('MGR')) {
+      return 'supervisor';
+    } else if (empCode.includes('ADM')) {
+      return 'admin';
+    } else {
+      return 'driver';
     }
   }
 
@@ -97,7 +226,7 @@ export class AuthService {
   }
 
   /**
-   * Validasi ulang lokasi untuk user yang sudah login
+   * Revalidate location - optional untuk check lokasi lagi
    */
   async revalidateLocation(): Promise<{ success: boolean; message: string }> {
     const currentUser = this.getCurrentUser();
@@ -109,60 +238,27 @@ export class AuthService {
     }
 
     try {
-      const locationValidation = await this.geolocationService.validateLocationForLogin();
+      const location = await this.geolocationService.getCurrentLocation();
       
-      if (locationValidation.success) {
-        // Update user location
-        const updatedUser: AuthUser = {
-          ...currentUser,
-          location: locationValidation.location,
-          allowedLocation: locationValidation.nearestLocation
-        };
-        
-        this.setCurrentUser(updatedUser);
-        this.saveUserToStorage(updatedUser);
-        
-        return {
-          success: true,
-          message: `Location verified at ${locationValidation.nearestLocation?.name}`
-        };
-      } else {
-        // Logout user jika lokasi tidak valid
-        this.logout();
-        return {
-          success: false,
-          message: locationValidation.message
-        };
-      }
+      // Update user location
+      const updatedUser: AuthUser = {
+        ...currentUser,
+        location: location
+      };
+      
+      this.setCurrentUser(updatedUser);
+      this.saveUserToStorage(updatedUser);
+      
+      return {
+        success: true,
+        message: 'Location updated successfully'
+      };
     } catch (error) {
       return {
         success: false,
         message: `Location validation error: ${error instanceof Error ? error.message : 'Unknown error'}`
       };
     }
-  }
-
-  /**
-   * Validasi kredensial (implementasi sederhana)
-   */
-  private validateCredentials(username: string, password: string): { username: string; role: string } | null {
-    const validUsers = [
-      { username: 'driver1', password: 'pass123', role: 'driver' },
-      { username: 'driver2', password: 'pass456', role: 'driver' },
-      { username: 'supervisor', password: 'admin123', role: 'supervisor' },
-      { username: 'admin', password: 'admin', role: 'admin' }
-    ];
-
-    const user = validUsers.find(u => u.username === username && u.password === password);
-    
-    if (user) {
-      return {
-        username: user.username,
-        role: user.role
-      };
-    }
-    
-    return null;
   }
 
   /**
@@ -231,5 +327,21 @@ export class AuthService {
   hasAnyRole(roles: string[]): boolean {
     const userRole = this.getUserRole();
     return userRole ? roles.includes(userRole) : false;
+  }
+
+  /**
+   * Get current user's employee code
+   */
+  getEmployeeCode(): string | null {
+    const user = this.getCurrentUser();
+    return user ? user.empCode : null;
+  }
+
+  /**
+   * Get current user's site
+   */
+  getSite(): string | null {
+    const user = this.getCurrentUser();
+    return user ? user.site : null;
   }
 }

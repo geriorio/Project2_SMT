@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-landing',
@@ -9,13 +10,27 @@ import { CommonModule } from '@angular/common';
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.css']
 })
-export class LandingComponent {
+export class LandingComponent implements OnInit {
   currentTime: string = '';
-  currentUser: string = 'Admin User';
+  currentUser: string = 'User';
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {
     this.updateTime();
     setInterval(() => this.updateTime(), 1000);
+  }
+
+  ngOnInit() {
+    // Get current user info
+    const user = this.authService.getCurrentUser();
+    if (user) {
+      this.currentUser = user.empCode || user.username;
+    } else {
+      // If no user logged in, redirect to login
+      this.router.navigate(['/login']);
+    }
   }
 
   updateTime() {
@@ -28,6 +43,7 @@ export class LandingComponent {
   }
 
   logout() {
+    this.authService.logout();
     this.router.navigate(['/login']);
   }
 }

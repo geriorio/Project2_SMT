@@ -55,17 +55,29 @@
   font-size: 14px;
 }
 
-.form-group input {
+.form-group input,
+.form-group select {
   padding: 12px 16px;
   border: 2px solid #e1e5e9;
   border-radius: 8px;
   font-size: 16px;
   transition: border-color 0.3s ease;
+  background: white;
 }
 
-.form-group input:focus {
+.form-group input:focus,
+.form-group select:focus {
   outline: none;
   border-color: #667eea;
+}
+
+.form-group input.error {
+  border-color: #dc3545;
+  background-color: #fff5f5;
+}
+
+.form-group select {
+  cursor: pointer;
 }
 
 .login-btn {
@@ -106,8 +118,8 @@
   box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
 }
 
-/* Demo Section */
-.demo-section {
+/* Location Section - Always Visible */
+.location-section {
   margin-top: 20px;
   padding: 16px;
   background: #f8f9fa;
@@ -115,37 +127,44 @@
   border: 1px solid #e9ecef;
 }
 
-.demo-title {
-  margin: 0 0 12px 0;
-  font-size: 14px;
-  font-weight: 600;
+.location-section h4 {
+  margin: 0 0 16px 0;
   color: #495057;
+  font-size: 16px;
   text-align: center;
 }
 
-.demo-buttons {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  flex-wrap: wrap;
+/* Coordinate Inputs */
+.coordinate-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
-.demo-btn {
-  padding: 8px 12px;
-  border: none;
+.coordinate-inputs .form-group {
+  margin: 0;
+}
+
+.coordinate-inputs input[type="number"] {
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+}
+
+.coordinate-info {
+  padding: 12px;
+  background: #e3f2fd;
   border-radius: 6px;
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  min-width: 70px;
-  background: linear-gradient(135deg, #6c757d, #495057);
-  color: white;
+  border: 1px solid #bbdefb;
+  text-align: center;
 }
 
-.demo-btn:hover {
-  transform: translateY(-1px);
-  background: linear-gradient(135deg, #495057, #343a40);
+.coord-display {
+  margin: 0;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  color: #1565c0;
+  font-weight: 600;
 }
 
 /* Error Alert */
@@ -443,6 +462,12 @@
   
   .form-group input {
     font-size: 16px; /* Prevents zoom on iOS */
+  }
+
+  /* Manual Location Responsive */
+  .coordinate-inputs {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 }
 

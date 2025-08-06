@@ -1,59 +1,138 @@
-# PROJECT2SMT
+# Samator Truck Management System (SMT)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.15.
+This project is an Angular-based web application for truck management integrated with Samator Epicor API.
 
-## Development server
+## 🚀 Quick Start
 
-To start a local development server, run:
+### 1. Install Dependencies
+```bash
+npm install
+```
 
+### 2. Setup Epicor Credentials
+Before running the application, you need to configure your Epicor credentials:
+
+#### Option A: Use Setup Script (Recommended)
+```bash
+# For Windows (PowerShell)
+./setup-credentials.ps1
+
+# For Linux/Mac (Bash)  
+./setup-credentials.sh
+```
+
+#### Option B: Manual Setup
+1. Edit `src/environments/environment.development.ts`
+2. Edit `src/environments/environment.ts`
+3. Replace placeholders with your actual Epicor credentials:
+   ```typescript
+   basicAuth: {
+     username: 'your_actual_epicor_username',
+     password: 'your_actual_epicor_password'
+   }
+   ```
+
+### 3. Start Development Server
 ```bash
 ng serve
 ```
+Navigate to `http://localhost:4200/`
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## 📋 Features
 
-## Code scaffolding
+- **API Integration** with Samator Epicor system
+- **Location-based authentication** with GPS
+- **Manual location testing** with preset coordinates
+- **Employee code validation** 
+- **Site management** with flexible input
+- **Secure session management**
+- **Route protection** with authentication guards
+- **Real-time location tracking**
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 🔐 Authentication
 
+The application uses **dual authentication**:
+1. **Basic Auth** - Your Epicor credentials
+2. **API Key** - Samator API key (pre-configured)
+
+## 📱 Usage
+
+1. **Login**: Enter site code and employee code
+2. **Location**: Choose auto GPS or manual coordinates
+3. **Dashboard**: Access truck management features
+4. **Logout**: Secure session termination
+
+### 🧪 Testing with Manual Location
+- Click **"📝 Use Manual Location"** on login form
+- Select preset city or enter custom coordinates
+- Perfect for testing from different locations without traveling
+
+## 🔧 Development
+
+### Code scaffolding
 ```bash
 ng generate component component-name
+ng generate --help  # for more options
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
+### Building
 ```bash
-ng generate --help
+ng build  # Development build
+ng build --configuration production  # Production build
 ```
 
-## Building
-
-To build the project run:
-
+### Testing
 ```bash
-ng build
+ng test  # Unit tests
+ng e2e   # End-to-end tests
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## 📁 Project Structure
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
+```
+src/
+├── app/
+│   ├── components/     # UI Components
+│   ├── services/       # Business Logic
+│   ├── guards/         # Route Protection
+│   └── ...
+├── environments/       # Configuration Files
+└── ...
 ```
 
-## Running end-to-end tests
+## 🔒 Security
 
-For end-to-end (e2e) testing, run:
+- Environment credentials are git-ignored
+- Basic Auth over HTTPS
+- Session timeout management
+- Input validation and sanitization
 
-```bash
-ng e2e
-```
+## 📚 Documentation
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+- [API Integration Guide](API_LOGIN_INTEGRATION.md)
+- [Environment Setup](ENVIRONMENT_SETUP.md) 
+- [Changes Summary](CHANGES_SUMMARY.md)
+- [Manual Location Testing](MANUAL_LOCATION_GUIDE.md)
 
-## Additional Resources
+## ⚠️ Important Notes
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- **Never commit real credentials** to the repository
+- Use environment variables for production deployment
+- Ensure HTTPS is used in production
+- Location services must be enabled in browser
+
+## 🆘 Troubleshooting
+
+### Login Issues
+- Verify Epicor credentials are correct
+- Check network connectivity
+- Ensure location services are enabled
+
+### Build Issues
+- Run `npm install` to ensure dependencies
+- Check environment file configuration
+- Verify Angular CLI version compatibility
+
+## 📞 Support
+
+For technical support or questions, refer to the documentation files or contact the development team.
