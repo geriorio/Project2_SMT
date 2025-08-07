@@ -25,6 +25,9 @@ export class ScanBarcodeComponent implements OnInit, OnDestroy {
   
   private codeReader: BrowserMultiFormatReader;
   private stream: MediaStream | null = null;
+  private scanAttemptCount: number = 0;
+  private lastDetectedCodes: string[] = [];
+  private readonly maxScanAttempts = 5;
 
   constructor(
     private router: Router,
@@ -66,13 +69,17 @@ export class ScanBarcodeComponent implements OnInit, OnDestroy {
     try {
       this.isScanning = true;
       this.cameraError = '';
+      
+      // Reset tracking for new scan session
+      this.scanAttemptCount = 0;
+      this.lastDetectedCodes = [];
 
-      // Get camera stream with optimized settings for barcode scanning
+      // Get camera stream with optimized settings for long barcode scanning
       this.stream = await navigator.mediaDevices.getUserMedia({
         video: {
           facingMode: 'environment', // Use back camera if available
-          width: { ideal: 1280, min: 640 }, // Higher resolution for better detection
-          height: { ideal: 720, min: 480 },
+          width: { ideal: 1920, min: 1280 }, // Higher resolution for long barcodes
+          height: { ideal: 1080, min: 720 },
           frameRate: { ideal: 30, min: 15 } // Smooth frame rate
         }
       });
@@ -86,20 +93,30 @@ export class ScanBarcodeComponent implements OnInit, OnDestroy {
           this.videoElement.nativeElement.onloadedmetadata = resolve;
         });
         
-        // Start scanning with enhanced detection
+        // Start scanning with enhanced detection for long barcodes
         this.codeReader.decodeFromVideoDevice(
           null, // Use default camera
           this.videoElement.nativeElement,
           (result: Result | null, error?: any) => {
             if (result) {
-              const detectedText = result.getText();
+              const detectedText = result.getText().trim();
               console.log('Raw barcode detected:', detectedText);
               
-              // Validate barcode before accepting
-              if (this.validateDetectedBarcode(detectedText)) {
+              // Track detection attempts for consistency
+              this.trackDetectedCode(detectedText);
+              
+              // Enhanced validation for long barcodes
+              if (this.validateDetectedBarcodeEnhanced(detectedText)) {
                 this.onBarcodeDetected(detectedText);
               } else {
                 console.log('Invalid barcode format, continuing scan:', detectedText);
+                
+                // Try to find the most consistent detection if we have multiple attempts
+                const consistentCode = this.findConsistentCode();
+                if (consistentCode && this.validateDetectedBarcodeEnhanced(consistentCode)) {
+                  console.log('Found consistent code from multiple scans:', consistentCode);
+                  this.onBarcodeDetected(consistentCode);
+                }
               }
             }
             if (error && error.name !== 'NotFoundException') {
@@ -136,6 +153,68 @@ export class ScanBarcodeComponent implements OnInit, OnDestroy {
   validateDetectedBarcode(code: string): boolean {
     // Use BarcodeService validation which is more comprehensive
     return this.barcodeService.validateBarcode(code);
+  }
+
+  validateDetectedBarcodeEnhanced(code: string): boolean {
+    // Enhanced validation with additional checks for long barcodes
+    if (!code || code.length < 3) return false;
+    
+    // Clean the code
+    const cleanCode = code.trim().toUpperCase();
+    
+    // Primary validation using service
+    if (this.barcodeService.validateBarcode(cleanCode)) {
+      return true;
+    }
+    
+    // Additional checks for edge cases and long barcodes
+    // Check for SGI045-00149601 pattern specifically
+    if (/^[A-Z]{3}\d{3}-\d{8,}$/i.test(cleanCode)) {
+      return true;
+    }
+    
+    // Check for long alphanumeric codes with reasonable length
+    if (cleanCode.length >= 8 && cleanCode.length <= 30 && /^[A-Z0-9\-]+$/i.test(cleanCode)) {
+      return true;
+    }
+    
+    return false;
+  }
+
+  trackDetectedCode(code: string): void {
+    if (!code) return;
+    
+    const cleanCode = code.trim().toUpperCase();
+    this.lastDetectedCodes.push(cleanCode);
+    this.scanAttemptCount++;
+    
+    // Keep only recent detections (last 10)
+    if (this.lastDetectedCodes.length > 10) {
+      this.lastDetectedCodes = this.lastDetectedCodes.slice(-10);
+    }
+  }
+
+  findConsistentCode(): string | null {
+    if (this.lastDetectedCodes.length < 3) return null;
+    
+    // Count occurrences of each code
+    const codeCount: { [key: string]: number } = {};
+    this.lastDetectedCodes.forEach(code => {
+      codeCount[code] = (codeCount[code] || 0) + 1;
+    });
+    
+    // Find the most frequent code
+    let maxCount = 0;
+    let mostFrequentCode: string | null = null;
+    
+    Object.entries(codeCount).forEach(([code, count]) => {
+      if (count > maxCount && count >= 2) { // Must appear at least twice
+        maxCount = count;
+        mostFrequentCode = code;
+      }
+    });
+    
+    return mostFrequentCode;
   }
 
   formatDetectedBarcode(code: string): string {
@@ -243,5 +322,20 @@ export class ScanBarcodeComponent implements OnInit, OnDestroy {
   goBack() {
     this.stopScanning();
     this.router.navigate(['/landing']);
+  }
+
+  onBarcodeInputChange() {
+    // Clean input as user types for better validation
+    if (this.barcodeInput) {
+      // Remove any unwanted characters and normalize
+      this.barcodeInput = this.barcodeInput.trim().toUpperCase();
+    }
+  }
+
+  isValidBarcodeInput(): boolean {
+    if (!this.barcodeInput || !this.barcodeInput.trim()) {
+      return false;
+    }
+    return this.validateDetectedBarcodeEnhanced(this.barcodeInput.trim());
   }
 }

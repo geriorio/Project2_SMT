@@ -71,23 +71,44 @@ export class BarcodeService {
     // Basic validation for truck barcode format
     if (!code) return false;
     
-    // Allow various formats:
+    // Remove whitespace and normalize
+    const cleanCode = code.trim().toUpperCase();
+    
+    // Allow various formats including long barcodes:
+    // - SGI045-00149601 (site-truck format - main target)
     // - TRK-XXXX (truck format)
     // - Any alphanumeric code with at least 3 characters
     // - Numbers only (for simple barcodes)
+    // - Long numeric codes (up to 25 digits)
     const patterns = [
-      /^TRK-\d{4,}$/i,           // TRK-1234 format
-      /^[A-Z0-9]{3,}$/i,         // General alphanumeric
-      /^\d{3,}$/,                // Numbers only
-      /^[A-Z]{2,3}-\d{3,}$/i     // XX-123 or XXX-123 format
+      /^[A-Z]{3}\d{3}-\d{8,}$/i,     // SGI045-00149601 format (site code + truck number)
+      /^[A-Z]{2,4}\d{2,4}-\d{6,}$/i, // General site-truck format
+      /^TRK-\d{4,}$/i,               // TRK-1234 format
+      /^[A-Z0-9]{3,25}$/i,           // General alphanumeric (3-25 chars)
+      /^\d{3,25}$/,                  // Numbers only (3-25 digits)
+      /^[A-Z]{2,5}-\d{3,}$/i,        // XX-123 or XXX-123 format
+      /^[A-Z]{2,5}-[A-Z0-9]{3,}$/i   // Mixed alphanumeric with dash
     ];
 
-    return patterns.some(pattern => pattern.test(code));
+    const isValid = patterns.some(pattern => pattern.test(cleanCode));
+    
+    // Additional length check for long barcodes
+    if (!isValid && cleanCode.length >= 8 && cleanCode.length <= 30) {
+      // Accept any alphanumeric string of reasonable length including dashes
+      return /^[A-Z0-9\-]{8,30}$/i.test(cleanCode);
+    }
+
+    return isValid;
   }
 
   formatBarcode(code: string): string {
     // Clean and format the barcode
     const cleaned = code.trim().toUpperCase();
+    
+    // Keep original format for complex barcodes like SGI045-00149601
+    if (/^[A-Z]{3}\d{3}-\d{8,}$/i.test(cleaned)) {
+      return cleaned; // Keep as-is for site-truck format
+    }
     
     // If it's just numbers and length > 4, format as TRK-XXXX
     if (/^\d{4,}$/.test(cleaned)) {

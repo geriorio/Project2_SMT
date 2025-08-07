@@ -65,15 +65,17 @@
           <small>Please use manual input below</small>
         </div>
 
-        <!-- Scanning Tips -->
+        <!-- Scanning Tips for Long Barcodes -->
         <div class="scan-tips" *ngIf="hasCamera">
-          <h4>📋 Scanning Tips</h4>
+          <h4>📋 Scanning Tips for Long Barcodes</h4>
           <ul>
-            <li>🔦 Ensure good lighting</li>
-            <li>📏 Keep barcode 15-30cm from camera</li>
+            <li>🔦 Ensure bright, even lighting</li>
+            <li>📏 Keep barcode 20-40cm from camera for long codes</li>
             <li>📐 Hold phone steady and parallel to barcode</li>
-            <li>🎯 Center barcode in the scanning area</li>
+            <li>🎯 Center the entire barcode in the scanning area</li>
             <li>🔍 Wait for auto-focus to stabilize</li>
+            <li>📱 Use landscape orientation for very long barcodes</li>
+            <li>🔄 Try multiple angles if detection fails</li>
           </ul>
         </div>
       </div>
@@ -93,7 +95,20 @@
               placeholder="Enter vehicle barcode"
               class="barcode-input"
               [disabled]="isLoadingTripData"
+              (input)="onBarcodeInputChange()"
             />
+            <div class="input-validation" *ngIf="barcodeInput.trim()">
+              <span 
+                class="validation-icon" 
+                [class.valid]="isValidBarcodeInput()"
+                [class.invalid]="!isValidBarcodeInput()"
+              >
+                {{ isValidBarcodeInput() ? '✅' : '❌' }}
+              </span>
+              <span class="validation-text">
+                {{ isValidBarcodeInput() ? 'Valid format' : 'Invalid barcode format' }}
+              </span>
+            </div>
           </div>
           
           <!-- Loading State -->
