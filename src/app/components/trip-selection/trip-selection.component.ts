@@ -24,6 +24,10 @@ export class TripSelectionComponent implements OnInit {
   selectTripType(type: 'IN' | 'OUT') {
     localStorage.setItem('tripType', type);
     
+    // Generate trip number based on truck and timestamp
+    const tripNumber = `${this.truckBarcode}-${Date.now()}`;
+    localStorage.setItem('tripNumber', tripNumber);
+    
     if (type === 'OUT') {
       // For OUT trips, go to checklist first
       this.router.navigate(['/checklist']);
