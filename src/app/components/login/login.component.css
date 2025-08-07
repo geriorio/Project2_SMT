@@ -140,15 +140,22 @@
   grid-template-columns: 1fr 1fr;
   gap: 12px;
   margin-bottom: 16px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .coordinate-inputs .form-group {
   margin: 0;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
-.coordinate-inputs input[type="number"] {
+.coordinate-inputs .form-group input {
   font-family: 'Courier New', monospace;
   font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 .coordinate-info {
@@ -446,6 +453,7 @@
   .login-card {
     padding: 30px 20px;
     max-width: 100%;
+    box-sizing: border-box;
   }
   
   .logo-section h1 {
@@ -466,14 +474,20 @@
 
   /* Manual Location Responsive */
   .coordinate-inputs {
-    grid-template-columns: 1fr;
-    gap: 16px;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  
+  .coordinate-inputs .form-group input {
+    font-size: 13px;
+    padding: 10px 8px;
   }
 }
 
 @media (max-width: 480px) {
   .login-card {
     padding: 20px 15px;
+    box-sizing: border-box;
   }
   
   .logo-section h1 {
@@ -490,5 +504,33 @@
   
   .location-details, .allowed-locations {
     padding: 12px;
+  }
+  
+  /* Coordinate inputs for very small screens */
+  .coordinate-inputs {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  
+  .coordinate-inputs .form-group input {
+    font-size: 12px;
+    padding: 8px 6px;
+  }
+  
+  .coordinate-inputs .form-group label {
+    font-size: 12px;
+  }
+}
+
+/* For very small screens - single column layout */
+@media (max-width: 360px) {
+  .coordinate-inputs {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .coordinate-inputs .form-group input {
+    font-size: 14px;
+    padding: 10px 12px;
   }
 }
