@@ -636,3 +636,46 @@
     margin: 0 0 8px 0;
   }
 }
+
+/* Input Validation */
+.input-validation {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.validation-icon.valid {
+  color: #28a745;
+}
+
+.validation-icon.invalid {
+  color: #dc3545;
+}
+
+.validation-text {
+  font-size: 13px;
+}
+
+/* Enhanced Scanner Success Animation */
+.scanner-frame.scan-success {
+  border-color: #28a745 !important;
+  box-shadow: 0 0 20px rgba(40, 167, 69, 0.5) !important;
+  animation: scanSuccess 1.5s ease-in-out;
+}
+
+@keyframes scanSuccess {
+  0% { 
+    transform: scale(1); 
+    border-color: #dee2e6; 
+  }
+  50% { 
+    transform: scale(1.02); 
+    border-color: #28a745; 
+  }
+  100% { 
+    transform: scale(1); 
+    border-color: #28a745; 
+  }
+}
