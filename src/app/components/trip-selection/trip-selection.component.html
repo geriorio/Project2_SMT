@@ -14,6 +14,49 @@
         </div>
       </div>
 
+      <!-- Trip Data Display (if available from API) -->
+      <div class="trip-data-section" *ngIf="hasTripData && tripData">
+        <h3>📋 Trip Details</h3>
+        <div class="trip-data-grid">
+          <div class="data-item">
+            <span class="label">Driver:</span>
+            <span class="value">{{ tripData.driver || 'Not specified' }}</span>
+          </div>
+          <div class="data-item">
+            <span class="label">Co-Driver:</span>
+            <span class="value">{{ tripData.codriver || 'Not specified' }}</span>
+          </div>
+          <div class="data-item">
+            <span class="label">Truck Plate:</span>
+            <span class="value">{{ tripData.truckPlate || 'Not specified' }}</span>
+          </div>
+          <div class="data-item">
+            <span class="label">Route ID:</span>
+            <span class="value">{{ tripData.routeID || 'Not specified' }}</span>
+          </div>
+          <div class="data-item">
+            <span class="label">Plant:</span>
+            <span class="value">{{ tripData.plant || 'Not specified' }}</span>
+          </div>
+          <div class="data-item">
+            <span class="label">ETA Date:</span>
+            <span class="value">{{ tripData.ETADate || 'Not specified' }}</span>
+          </div>
+          <div class="data-item full-width">
+            <span class="label">Description:</span>
+            <span class="value">{{ tripData.truckDesc || 'Not specified' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- No Trip Data Message -->
+      <div class="no-data-section" *ngIf="!hasTripData">
+        <div class="info-message">
+          <span class="info-icon">ℹ️</span>
+          <p>Trip data not available from server. Proceeding in manual mode.</p>
+        </div>
+      </div>
+
       <div class="selection-section">
         <h3>Select Trip Type</h3>
         <p>Choose whether this vehicle is going OUT or coming IN</p>

@@ -246,20 +246,204 @@
   transform: none;
 }
 
-@media (max-width: 640px) {
+/* Enhanced Mobile Responsiveness */
+@media (max-width: 768px) {
+  .header {
+    padding: 18px 16px;
+  }
+  
+  .header h1 {
+    font-size: 24px;
+  }
+  
+  .back-btn {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+  
+  .checklist-content {
+    padding: 24px 16px;
+  }
+  
   .checklist-card {
-    padding: 30px 20px;
+    padding: 24px 20px;
+    max-width: none;
+    margin: 0;
+  }
+  
+  .vehicle-info h2 {
+    font-size: 20px;
+    margin-bottom: 16px;
   }
   
   .info-row {
     flex-direction: column;
     align-items: flex-start;
-    gap: 5px;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  
+  .info-row .value {
+    font-size: 14px;
   }
   
   .progress-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 5px;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  
+  .progress-header h3 {
+    font-size: 16px;
+  }
+  
+  .progress-text {
+    font-size: 13px;
+  }
+  
+  .checklist-items {
+    gap: 12px;
+  }
+  
+  .checklist-item {
+    padding: 12px;
+  }
+  
+  .item-text {
+    font-size: 15px;
+  }
+  
+  .required-notice {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+  
+  .warning-icon {
+    font-size: 16px;
+  }
+  
+  .continue-btn {
+    padding: 14px 20px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 14px 12px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  
+  .header h1 {
+    font-size: 20px;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .back-btn {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  
+  .checklist-content {
+    padding: 20px 12px;
+  }
+  
+  .checklist-card {
+    border-radius: 16px;
+    padding: 20px 16px;
+  }
+  
+  .vehicle-info {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+  }
+  
+  .vehicle-info h2 {
+    font-size: 18px;
+    margin-bottom: 14px;
+  }
+  
+  .info-row {
+    margin-bottom: 10px;
+  }
+  
+  .info-row .label {
+    font-size: 14px;
+  }
+  
+  .info-row .value {
+    font-size: 13px;
+  }
+  
+  .out-badge {
+    padding: 3px 10px;
+    font-size: 13px;
+  }
+  
+  .progress-section {
+    margin-bottom: 24px;
+  }
+  
+  .progress-header h3 {
+    font-size: 15px;
+  }
+  
+  .progress-text {
+    font-size: 12px;
+  }
+  
+  .progress-bar {
+    height: 6px;
+  }
+  
+  .checklist-form {
+    gap: 24px;
+  }
+  
+  .checklist-items {
+    gap: 10px;
+  }
+  
+  .checklist-item {
+    padding: 10px;
+  }
+  
+  .checkbox-label {
+    gap: 10px;
+  }
+  
+  .checkmark {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .checkbox-label input[type="checkbox"]:checked + .checkmark::after {
+    font-size: 12px;
+  }
+  
+  .item-text {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  
+  .form-actions {
+    gap: 16px;
+  }
+  
+  .required-notice {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  
+  .warning-icon {
+    font-size: 14px;
+  }
+  
+  .continue-btn {
+    padding: 12px 18px;
+    font-size: 14px;
   }
 }

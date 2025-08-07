@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { TripInfo } from '../../services/api.service';
 
 @Component({
   selector: 'app-trip-selection',
@@ -11,6 +12,8 @@ import { CommonModule } from '@angular/common';
 })
 export class TripSelectionComponent implements OnInit {
   truckBarcode: string = '';
+  tripData: TripInfo | null = null;
+  hasTripData: boolean = false;
 
   constructor(private router: Router) {}
 
@@ -18,6 +21,23 @@ export class TripSelectionComponent implements OnInit {
     this.truckBarcode = localStorage.getItem('currentTruckBarcode') || '';
     if (!this.truckBarcode) {
       this.router.navigate(['/scan-barcode']);
+      return;
+    }
+
+    // Check if we have trip data from API
+    const tripDataString = localStorage.getItem('currentTripData');
+    if (tripDataString) {
+      try {
+        this.tripData = JSON.parse(tripDataString);
+        this.hasTripData = true;
+        console.log('Trip data loaded:', this.tripData);
+      } catch (error) {
+        console.error('Error parsing trip data:', error);
+        this.hasTripData = false;
+      }
+    } else {
+      this.hasTripData = false;
+      console.log('No trip data available - manual mode');
     }
   }
 

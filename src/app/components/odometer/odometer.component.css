@@ -295,24 +295,278 @@
   transform: translateY(-2px);
 }
 
-@media (max-width: 640px) {
+/* Enhanced Mobile Responsiveness */
+@media (max-width: 768px) {
+  .header {
+    padding: 18px 16px;
+  }
+  
+  .header h1 {
+    font-size: 24px;
+  }
+  
+  .back-btn {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+  
+  .odometer-content {
+    padding: 24px 16px;
+  }
+  
   .odometer-card {
-    padding: 30px 20px;
+    padding: 24px 20px;
+    max-width: none;
+    margin: 0;
+  }
+  
+  .vehicle-info h2 {
+    font-size: 20px;
+    margin-bottom: 16px;
   }
   
   .info-grid {
     grid-template-columns: 1fr;
+    gap: 12px;
   }
   
   .info-item {
     flex-direction: column;
     align-items: flex-start;
-    gap: 5px;
+    gap: 6px;
+    padding: 10px 14px;
+  }
+  
+  .info-item .label {
+    font-size: 14px;
+  }
+  
+  .info-item .value {
+    font-size: 14px;
+  }
+  
+  .out-badge,
+  .in-badge {
+    padding: 3px 10px;
+    font-size: 13px;
+  }
+  
+  .odometer-form {
+    gap: 24px;
+  }
+  
+  .form-section {
+    gap: 16px;
+  }
+  
+  .form-group label {
+    font-size: 15px;
+  }
+  
+  .odometer-input,
+  .text-input {
+    padding: 12px 16px;
+    font-size: 16px;
+  }
+  
+  .textarea-input {
+    padding: 12px 16px;
+    font-size: 15px;
+  }
+  
+  .summary-section {
+    padding: 16px;
+  }
+  
+  .summary-section h4 {
+    font-size: 16px;
+    margin-bottom: 12px;
   }
   
   .summary-item {
     flex-direction: column;
     align-items: flex-start;
-    gap: 5px;
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+  
+  .summary-label {
+    font-size: 14px;
+  }
+  
+  .summary-value {
+    font-size: 14px;
+  }
+  
+  .api-data-preview {
+    padding: 16px;
+    margin-top: 16px;
+  }
+  
+  .api-data-preview h5 {
+    font-size: 15px;
+    margin-bottom: 12px;
+  }
+  
+  .data-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  
+  .data-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 8px 10px;
+  }
+  
+  .data-label,
+  .data-value {
+    font-size: 13px;
+  }
+  
+  .complete-btn {
+    padding: 14px 20px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 14px 12px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  
+  .header h1 {
+    font-size: 20px;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .back-btn {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  
+  .odometer-content {
+    padding: 20px 12px;
+  }
+  
+  .odometer-card {
+    border-radius: 16px;
+    padding: 20px 16px;
+  }
+  
+  .vehicle-info {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+  }
+  
+  .vehicle-info h2 {
+    font-size: 18px;
+    margin-bottom: 14px;
+  }
+  
+  .info-grid {
+    gap: 10px;
+  }
+  
+  .info-item {
+    padding: 8px 12px;
+  }
+  
+  .info-item .label {
+    font-size: 13px;
+  }
+  
+  .info-item .value {
+    font-size: 13px;
+  }
+  
+  .out-badge,
+  .in-badge {
+    padding: 2px 8px;
+    font-size: 12px;
+  }
+  
+  .odometer-form {
+    gap: 20px;
+  }
+  
+  .form-section {
+    gap: 14px;
+  }
+  
+  .form-group label {
+    font-size: 14px;
+  }
+  
+  .odometer-input,
+  .text-input {
+    padding: 10px 14px;
+    font-size: 15px;
+  }
+  
+  .textarea-input {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+  
+  .form-actions {
+    gap: 16px;
+  }
+  
+  .summary-section {
+    padding: 14px;
+  }
+  
+  .summary-section h4 {
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+  
+  .summary-grid {
+    gap: 8px;
+  }
+  
+  .summary-item {
+    margin-bottom: 6px;
+  }
+  
+  .summary-label {
+    font-size: 13px;
+  }
+  
+  .summary-value {
+    font-size: 13px;
+  }
+  
+  .api-data-preview {
+    padding: 14px;
+    margin-top: 14px;
+  }
+  
+  .api-data-preview h5 {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  .data-grid {
+    gap: 6px;
+  }
+  
+  .data-item {
+    padding: 6px 8px;
+  }
+  
+  .data-label,
+  .data-value {
+    font-size: 12px;
+  }
+  
+  .complete-btn {
+    padding: 12px 18px;
+    font-size: 14px;
   }
 }

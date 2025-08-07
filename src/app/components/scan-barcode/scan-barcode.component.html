@@ -92,10 +92,29 @@
               name="barcode"
               placeholder="Enter vehicle barcode"
               class="barcode-input"
+              [disabled]="isLoadingTripData"
             />
           </div>
           
-          <button type="submit" class="submit-btn">Continue</button>
+          <!-- Loading State -->
+          <div class="loading-section" *ngIf="isLoadingTripData">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">Getting trip data...</p>
+          </div>
+          
+          <!-- Error Message -->
+          <div class="error-message" *ngIf="tripDataError && !isLoadingTripData">
+            <span class="error-icon">⚠️</span>
+            <p>{{ tripDataError }}</p>
+          </div>
+          
+          <button 
+            type="submit" 
+            class="submit-btn"
+            [disabled]="isLoadingTripData || !barcodeInput.trim()"
+          >
+            {{ isLoadingTripData ? 'Loading...' : 'Get Trip Data' }}
+          </button>
         </form>
       </div>
     </div>

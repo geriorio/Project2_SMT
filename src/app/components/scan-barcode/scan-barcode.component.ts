@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BrowserMultiFormatReader, Result } from '@zxing/library';
 import { BarcodeService } from '../../services/barcode.service';
+import { ApiService, TripInfo } from '../../services/api.service';
 
 @Component({
   selector: 'app-scan-barcode',
@@ -19,13 +20,16 @@ export class ScanBarcodeComponent implements OnInit, OnDestroy {
   isScanning: boolean = false;
   hasCamera: boolean = false;
   cameraError: string = '';
+  isLoadingTripData: boolean = false;
+  tripDataError: string = '';
   
   private codeReader: BrowserMultiFormatReader;
   private stream: MediaStream | null = null;
 
   constructor(
     private router: Router,
-    private barcodeService: BarcodeService
+    private barcodeService: BarcodeService,
+    private apiService: ApiService
   ) {
     this.codeReader = new BrowserMultiFormatReader();
   }
@@ -171,12 +175,69 @@ export class ScanBarcodeComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.barcodeInput.trim()) {
-      // Store barcode data and navigate to trip selection
-      localStorage.setItem('currentTruckBarcode', this.barcodeInput.trim());
-      this.router.navigate(['/trip-selection']);
+      this.getTripDataFromAPI(this.barcodeInput.trim());
     } else {
       alert('Please scan or enter a barcode');
     }
+  }
+
+  /**
+   * Get trip data from API using the scanned/entered code
+   */
+  getTripDataFromAPI(tripCode: string) {
+    this.isLoadingTripData = true;
+    this.tripDataError = '';
+
+    console.log('Getting trip data for:', tripCode);
+
+    this.apiService.getTripData(tripCode).subscribe({
+      next: (tripData: TripInfo) => {
+        console.log('Trip data received:', tripData);
+        
+        // Store trip data and barcode in localStorage
+        localStorage.setItem('currentTruckBarcode', tripCode);
+        localStorage.setItem('currentTripData', JSON.stringify(tripData));
+        
+        this.isLoadingTripData = false;
+        
+        // Navigate to trip selection page with trip data
+        this.router.navigate(['/trip-selection']);
+      },
+      error: (error) => {
+        console.error('Error getting trip data:', error);
+        this.isLoadingTripData = false;
+        
+        let errorMessage = 'Failed to get trip data.';
+        
+        if (error.status === 0) {
+          errorMessage += ' Please check your internet connection.';
+        } else if (error.status === 401) {
+          errorMessage += ' Authentication failed.';
+        } else if (error.status === 403) {
+          errorMessage += ' Access denied.';
+        } else if (error.status === 404) {
+          errorMessage += ' Trip not found or API endpoint not available.';
+        } else if (error.status >= 500) {
+          errorMessage += ' Server error.';
+        } else {
+          errorMessage += ` (HTTP ${error.status})`;
+        }
+        
+        this.tripDataError = errorMessage;
+        
+        // Show error but still allow manual proceed
+        const proceedManually = confirm(
+          `${errorMessage}\n\nWould you like to proceed manually without trip data?`
+        );
+        
+        if (proceedManually) {
+          // Store barcode without trip data
+          localStorage.setItem('currentTruckBarcode', tripCode);
+          localStorage.removeItem('currentTripData'); // Clear any old trip data
+          this.router.navigate(['/trip-selection']);
+        }
+      }
+    });
   }
 
   goBack() {

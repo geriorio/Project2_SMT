@@ -126,30 +126,188 @@
   font-size: 24px;
 }
 
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
+/* Enhanced Mobile Responsiveness */
+@media (max-width: 768px) {
+  .header {
+    padding: 16px 0;
+  }
+  
+  .header-content {
+    padding: 0 16px;
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+  
+  .header h1 {
+    font-size: 24px;
+  }
+  
+  .user-info {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  
+  .user-info span {
+    font-size: 14px;
+  }
+  
+  .logout-btn {
+    padding: 8px 14px;
+    font-size: 14px;
+  }
+  
+  .main-content {
+    padding: 24px 16px;
+  }
+  
+  .dashboard-card {
+    padding: 24px 20px;
+    margin-bottom: 20px;
+  }
+  
+  .time-section {
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+  }
+  
+  .time-section h2 {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+  
+  .time-display {
+    font-size: 18px;
+    padding: 8px 16px;
+  }
+  
+  .action-section h2 {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+  
+  .action-section p {
+    font-size: 15px;
+    margin-bottom: 24px;
+  }
+  
+  .scan-btn {
+    padding: 16px 32px;
+    font-size: 16px;
+    border-radius: 10px;
+  }
+  
+  .scan-btn .icon {
+    font-size: 20px;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .stat-card {
+    padding: 20px;
+  }
+  
+  .stat-card h3 {
+    font-size: 15px;
+    margin-bottom: 12px;
+  }
+  
+  .stat-number {
+    font-size: 28px;
+  }
 }
 
-.stat-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-  text-align: center;
-}
-
-.stat-card h3 {
-  color: #666;
-  margin-bottom: 15px;
-  font-size: 16px;
-  font-weight: 500;
-}
-
-.stat-number {
-  font-size: 36px;
-  font-weight: 700;
-  color: #333;
-  margin: 0;
+@media (max-width: 480px) {
+  .header {
+    padding: 12px 0;
+  }
+  
+  .header-content {
+    padding: 0 12px;
+    gap: 12px;
+  }
+  
+  .header h1 {
+    font-size: 20px;
+  }
+  
+  .user-info {
+    gap: 10px;
+  }
+  
+  .user-info span {
+    font-size: 13px;
+  }
+  
+  .logout-btn {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+  
+  .main-content {
+    padding: 20px 12px;
+  }
+  
+  .dashboard-card {
+    border-radius: 16px;
+    padding: 20px 16px;
+    margin-bottom: 16px;
+  }
+  
+  .time-section {
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+  }
+  
+  .time-section h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .time-display {
+    font-size: 16px;
+    padding: 8px 14px;
+  }
+  
+  .action-section h2 {
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+  
+  .action-section p {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  
+  .scan-btn {
+    padding: 14px 28px;
+    font-size: 15px;
+    border-radius: 10px;
+    gap: 8px;
+  }
+  
+  .scan-btn .icon {
+    font-size: 18px;
+  }
+  
+  .stats-grid {
+    gap: 14px;
+  }
+  
+  .stat-card {
+    padding: 16px;
+  }
+  
+  .stat-card h3 {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  .stat-number {
+    font-size: 24px;
+  }
 }
