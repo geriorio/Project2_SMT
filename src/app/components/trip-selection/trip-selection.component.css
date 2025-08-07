@@ -157,6 +157,18 @@
 
 .data-item.full-width {
   grid-column: 1 / -1;
+  overflow: hidden;
+}
+
+.data-item.full-width .value {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  word-break: break-word;
+  hyphens: auto;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .data-item .label {
@@ -334,6 +346,27 @@
 .trip-option:hover .option-arrow {
   color: #667eea;
   transform: translateX(5px);
+}
+
+/* Desktop and laptop specific styles for description */
+@media (min-width: 769px) {
+  .data-item.full-width {
+    grid-column: 1 / -1;
+    overflow: hidden;
+    max-width: 100%;
+  }
+  
+  .data-item.full-width .value {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    word-break: break-word;
+    hyphens: auto;
+    max-width: 100%;
+    overflow: hidden;
+    line-height: 1.4;
+    display: block;
+  }
 }
 
 /* Mobile Responsiveness */

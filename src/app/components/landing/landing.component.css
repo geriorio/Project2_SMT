@@ -201,24 +201,6 @@
   .scan-btn .icon {
     font-size: 20px;
   }
-  
-  .stats-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  
-  .stat-card {
-    padding: 20px;
-  }
-  
-  .stat-card h3 {
-    font-size: 15px;
-    margin-bottom: 12px;
-  }
-  
-  .stat-number {
-    font-size: 28px;
-  }
 }
 
 @media (max-width: 480px) {
@@ -292,22 +274,5 @@
   
   .scan-btn .icon {
     font-size: 18px;
-  }
-  
-  .stats-grid {
-    gap: 14px;
-  }
-  
-  .stat-card {
-    padding: 16px;
-  }
-  
-  .stat-card h3 {
-    font-size: 14px;
-    margin-bottom: 10px;
-  }
-  
-  .stat-number {
-    font-size: 24px;
   }
 }
