@@ -134,6 +134,65 @@
   text-align: center;
 }
 
+/* Coordinate Display (Single Row - Compact) */
+.coordinate-display-single {
+  margin-bottom: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.coordinate-item-single {
+  background: white;
+  padding: 16px;
+  border-radius: 8px;
+  border: 2px solid #e1e5e9;
+  box-sizing: border-box;
+}
+
+.coordinate-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.coordinate-part {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  justify-content: center;
+}
+
+.coordinate-part label {
+  font-weight: 600;
+  color: #495057;
+  font-size: 14px;
+  min-width: 35px;
+  text-align: right;
+}
+
+.coord-value {
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  color: #2c3e50;
+  background: #f8f9fa;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #dee2e6;
+  font-weight: 600;
+  min-width: 100px;
+  text-align: center;
+}
+
+.coordinate-separator {
+  color: #adb5bd;
+  font-weight: bold;
+  font-size: 16px;
+  margin: 0 4px;
+}
+
 /* Coordinate Inputs */
 .coordinate-inputs {
   display: grid;
@@ -482,6 +541,45 @@
     font-size: 13px;
     padding: 10px 8px;
   }
+  
+  /* Coordinate Display Responsive */
+  .coordinate-display {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  
+  .coordinate-display .coordinate-item {
+    padding: 10px;
+  }
+  
+  .coordinate-value-readonly span {
+    font-size: 13px;
+    padding: 6px 8px;
+  }
+  
+  /* Compact Single Row Display */
+  .coordinate-item-single {
+    padding: 12px;
+  }
+  
+  .coordinate-row {
+    gap: 12px;
+  }
+  
+  .coordinate-part label {
+    font-size: 13px;
+    min-width: 30px;
+  }
+  
+  .coord-value {
+    font-size: 13px;
+    padding: 6px 10px;
+    min-width: 90px;
+  }
+  
+  .coordinate-separator {
+    font-size: 14px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -520,9 +618,62 @@
   .coordinate-inputs .form-group label {
     font-size: 12px;
   }
+  
+  /* Coordinate Display for small screens */
+  .coordinate-display {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  
+  .coordinate-display .coordinate-item {
+    padding: 8px;
+  }
+  
+  .coordinate-display .coordinate-item label {
+    font-size: 11px;
+  }
+  
+  .coordinate-value-readonly span {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+  
+  /* Compact Single Row for Small Screens */
+  .coordinate-item-single {
+    padding: 10px;
+  }
+  
+  .coordinate-row {
+    gap: 8px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .coordinate-part {
+    justify-content: space-between;
+    flex: none;
+  }
+  
+  .coordinate-part label {
+    font-size: 12px;
+    min-width: auto;
+    text-align: left;
+  }
+  
+  .coord-value {
+    font-size: 12px;
+    padding: 6px 8px;
+    min-width: auto;
+    flex: 1;
+    margin-left: 8px;
+  }
+  
+  .coordinate-separator {
+    display: none;
+  }
 }
 
-/* For very small screens - single column layout */
+/* For very small screens - stack vertically */
 @media (max-width: 360px) {
   .coordinate-inputs {
     grid-template-columns: 1fr;
@@ -532,5 +683,97 @@
   .coordinate-inputs .form-group input {
     font-size: 14px;
     padding: 10px 12px;
+  }
+  
+  .coordinate-display {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .coordinate-display .coordinate-item {
+    padding: 10px;
+  }
+  
+  .coordinate-value-readonly span {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+  
+  /* Very small screen compact layout */
+  .coordinate-item-single {
+    padding: 12px;
+  }
+  
+  .coordinate-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .coordinate-part {
+    justify-content: space-between;
+  }
+  
+  .coordinate-part label {
+    font-size: 13px;
+  }
+  
+  .coord-value {
+    font-size: 13px;
+    padding: 8px 10px;
+  }
+}
+
+/* Ultra-compact for very short screens */
+@media (max-height: 600px) {
+  .login-card {
+    padding: 20px 15px;
+    max-height: 95vh;
+  }
+  
+  .logo-section {
+    margin-bottom: 20px;
+  }
+  
+  .logo-section h1 {
+    font-size: 22px;
+    margin-bottom: 5px;
+  }
+  
+  .logo-section p {
+    font-size: 14px;
+  }
+  
+  .location-section {
+    padding: 12px;
+    margin-top: 15px;
+  }
+  
+  .location-section h4 {
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+  
+  .location-section p {
+    font-size: 11px !important;
+    margin-bottom: 12px !important;
+  }
+  
+  .coordinate-item-single {
+    padding: 10px;
+  }
+  
+  .coordinate-part label {
+    font-size: 12px;
+  }
+  
+  .coord-value {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+  
+  .login-btn {
+    padding: 10px;
+    font-size: 15px;
+    margin-top: 15px;
   }
 }

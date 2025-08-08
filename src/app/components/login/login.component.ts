@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -12,28 +12,55 @@ import { GeolocationService, UserLocation } from '../../services/geolocation.ser
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   empCode: string = '';
   site: string = '';
   isLoading: boolean = false;
   locationStatus: string = '';
-  showLocationInfo: boolean = false;
-  userLocation: UserLocation | null = null;
   errorMessage: string = '';
   
-  // Manual location input - always enabled
-  manualLatitude: string = '-5.104556'; // Default dari contoh API
+  // Current location coordinates (read-only display)
+  manualLatitude: string = '-5.104556'; // Default fallback
   manualLongitude: string = '119.506595';
-  
-  // Auto-detected location (hanya untuk informasi)
-  autoDetectedLocation: UserLocation | null = null;
-  showAutoLocation: boolean = false;
 
   constructor(
     private router: Router,
     private authService: AuthService,
     private geolocationService: GeolocationService
   ) {}
+
+  ngOnInit() {
+    // Automatically get current location when component loads
+    this.getCurrentLocationOnInit();
+  }
+
+  async getCurrentLocationOnInit() {
+    this.isLoading = true;
+    this.locationStatus = 'Detecting your current location...';
+    this.errorMessage = '';
+
+    try {
+      // Auto-detect location and set coordinates
+      const currentLocation = await this.geolocationService.getCurrentLocation();
+      
+      this.manualLatitude = currentLocation.latitude.toFixed(6);
+      this.manualLongitude = currentLocation.longitude.toFixed(6);
+      this.locationStatus = 'Location detected successfully!';
+      
+      console.log('Current location set:', currentLocation);
+      
+    } catch (error) {
+      this.locationStatus = '';
+      this.errorMessage = 'Unable to detect location. Please ensure location access is enabled and refresh the page.';
+      console.error('Location detection error:', error);
+      
+      // Keep default coordinates if location detection fails
+      this.manualLatitude = '-5.104556';
+      this.manualLongitude = '119.506595';
+    } finally {
+      this.isLoading = false;
+    }
+  }
 
   async onLogin() {
     // Reset error message
@@ -46,7 +73,7 @@ export class LoginComponent {
     }
 
     if (!this.site.trim()) {
-      this.errorMessage = 'Please enter your site code';
+      this.errorMessage = 'Isi Kode Cabang!';
       return;
     }
 
@@ -77,10 +104,10 @@ export class LoginComponent {
     }
 
     this.isLoading = true;
-    this.locationStatus = 'Logging in with custom location...';
+    this.locationStatus = 'Logging in with current position...';
 
     try {
-      // Login dengan API menggunakan manual location
+      // Login dengan API menggunakan current location
       const result = await this.authService.loginWithLocation(
         this.empCode.trim(), 
         this.site.trim(),
@@ -94,12 +121,6 @@ export class LoginComponent {
       
       if (result.success) {
         this.locationStatus = 'Login successful! Redirecting...';
-        this.showLocationInfo = true;
-        
-        // Update user location untuk display
-        if (result.user?.location) {
-          this.userLocation = result.user.location;
-        }
         
         // Redirect setelah 2 detik
         setTimeout(() => {
@@ -120,67 +141,6 @@ export class LoginComponent {
     }
   }
 
-  async getLocationOnly() {
-    this.isLoading = true;
-    this.locationStatus = 'Detecting your current location...';
-    this.errorMessage = '';
-    this.showAutoLocation = false;
-
-    try {
-      // Deteksi lokasi otomatis
-      const detectedLocation = await this.geolocationService.getCurrentLocation();
-      
-      this.autoDetectedLocation = detectedLocation;
-      this.locationStatus = 'Location detected successfully!';
-      this.showAutoLocation = true;
-      
-      console.log('Auto-detected location:', detectedLocation);
-      
-    } catch (error) {
-      this.locationStatus = '';
-      this.errorMessage = 'Unable to detect location. Please ensure location access is enabled.';
-      console.error('Location detection error:', error);
-    } finally {
-      this.isLoading = false;
-    }
-  }
-
-  // Fungsi untuk copy koordinat auto-detected ke input manual
-  useDetectedLocation() {
-    if (this.autoDetectedLocation) {
-      this.manualLatitude = this.autoDetectedLocation.latitude.toFixed(6);
-      this.manualLongitude = this.autoDetectedLocation.longitude.toFixed(6);
-      this.errorMessage = '';
-      alert('Location coordinates copied to input fields!');
-    }
-  }
-
-  // Fungsi untuk menyembunyikan info auto location
-  hideAutoLocation() {
-    this.showAutoLocation = false;
-    this.autoDetectedLocation = null;
-    this.locationStatus = '';
-  }
-
-  copyToClipboard(text: string) {
-    navigator.clipboard.writeText(text).then(() => {
-      alert('Copied to clipboard!');
-    }).catch(() => {
-      alert('Failed to copy to clipboard');
-    });
-  }
-
-  hideLocationInfo() {
-    this.showLocationInfo = false;
-    this.locationStatus = '';
-    this.userLocation = null;
-  }
-
-  // Fungsi untuk format koordinat
-  formatCoordinate(coord: number): string {
-    return coord.toFixed(6);
-  }
-
   // Handle site input
   onSiteChange() {
     // Reset error message when site changes
@@ -193,8 +153,8 @@ export class LoginComponent {
     this.errorMessage = '';
   }
 
-  // Validate coordinates
-  onCoordinateChange() {
-    this.errorMessage = '';
+  // Format coordinate display
+  formatCoordinate(coord: number): string {
+    return coord.toFixed(6);
   }
 }
