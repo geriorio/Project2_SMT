@@ -41,12 +41,12 @@ export class LoginComponent {
 
     // Validasi input
     if (!this.empCode.trim()) {
-      this.errorMessage = 'Please enter your employee code';
+      this.errorMessage = 'Silakan masukkan kode karyawan Anda';
       return;
     }
 
     if (!this.site.trim()) {
-      this.errorMessage = 'Please enter your site code';
+      this.errorMessage = 'Silakan masukkan kode site';
       return;
     }
 
@@ -54,7 +54,7 @@ export class LoginComponent {
     if (!this.manualLatitude || !this.manualLongitude || 
         this.manualLatitude.toString().trim() === '' || 
         this.manualLongitude.toString().trim() === '') {
-      this.errorMessage = 'Please enter both latitude and longitude';
+      this.errorMessage = 'Silakan masukkan latitude dan longitude';
       return;
     }
     
@@ -62,22 +62,22 @@ export class LoginComponent {
     const lng = parseFloat(this.manualLongitude.toString().trim());
     
     if (isNaN(lat) || isNaN(lng)) {
-      this.errorMessage = 'Please enter valid numeric coordinates';
+      this.errorMessage = 'Silakan masukkan koordinat numerik yang valid';
       return;
     }
     
     if (lat < -90 || lat > 90) {
-      this.errorMessage = 'Latitude must be between -90 and 90';
+      this.errorMessage = 'Latitude harus antara -90 dan 90';
       return;
     }
     
     if (lng < -180 || lng > 180) {
-      this.errorMessage = 'Longitude must be between -180 and 180';
+      this.errorMessage = 'Longitude harus antara -180 dan 180';
       return;
     }
 
     this.isLoading = true;
-    this.locationStatus = 'Logging in with custom location...';
+    this.locationStatus = 'Login dengan lokasi khusus...';
 
     try {
       // Login dengan API menggunakan manual location
@@ -93,7 +93,7 @@ export class LoginComponent {
       );
       
       if (result.success) {
-        this.locationStatus = 'Login successful! Redirecting...';
+        this.locationStatus = 'Login berhasil! Mengalihkan...';
         this.showLocationInfo = true;
         
         // Update user location untuk display
@@ -115,14 +115,14 @@ export class LoginComponent {
     } catch (error) {
       this.isLoading = false;
       this.locationStatus = '';
-      this.errorMessage = 'An unexpected error occurred. Please try again.';
+      this.errorMessage = 'Terjadi kesalahan yang tidak terduga. Silakan coba lagi.';
       console.error('Login error:', error);
     }
   }
 
   async getLocationOnly() {
     this.isLoading = true;
-    this.locationStatus = 'Detecting your current location...';
+    this.locationStatus = 'Mendeteksi lokasi Anda saat ini...';
     this.errorMessage = '';
     this.showAutoLocation = false;
 
@@ -131,14 +131,14 @@ export class LoginComponent {
       const detectedLocation = await this.geolocationService.getCurrentLocation();
       
       this.autoDetectedLocation = detectedLocation;
-      this.locationStatus = 'Location detected successfully!';
+      this.locationStatus = 'Lokasi terdeteksi berhasil!';
       this.showAutoLocation = true;
       
       console.log('Auto-detected location:', detectedLocation);
       
     } catch (error) {
       this.locationStatus = '';
-      this.errorMessage = 'Unable to detect location. Please ensure location access is enabled.';
+      this.errorMessage = 'Tidak dapat mendeteksi lokasi. Pastikan akses lokasi diizinkan.';
       console.error('Location detection error:', error);
     } finally {
       this.isLoading = false;
@@ -151,7 +151,7 @@ export class LoginComponent {
       this.manualLatitude = this.autoDetectedLocation.latitude.toFixed(6);
       this.manualLongitude = this.autoDetectedLocation.longitude.toFixed(6);
       this.errorMessage = '';
-      alert('Location coordinates copied to input fields!');
+      alert('Koordinat lokasi disalin ke field input!');
     }
   }
 
@@ -164,9 +164,9 @@ export class LoginComponent {
 
   copyToClipboard(text: string) {
     navigator.clipboard.writeText(text).then(() => {
-      alert('Copied to clipboard!');
+      alert('Disalin ke clipboard!');
     }).catch(() => {
-      alert('Failed to copy to clipboard');
+      alert('Gagal menyalin ke clipboard');
     });
   }
 
